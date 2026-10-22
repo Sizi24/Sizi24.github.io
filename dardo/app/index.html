@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dardo: Darts Checkout Trainer</title>
+<meta name="description" content="Checkouts im Kopf trainieren. Für iPhone und Android.">
+<!-- Karte unter dem geteilten Link (WhatsApp, Nachrichten): Titel, Text und App-Symbol. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sizi24.github.io/dardo/app/">
+<meta property="og:title" content="Dardo: Darts Checkout Trainer">
+<meta property="og:description" content="Checkouts im Kopf trainieren. Für iPhone und Android.">
+<meta property="og:image" content="https://sizi24.github.io/dardo/app/dardo.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="../style.css">
+<link rel="icon" href="../icon.png">
+<script>
+  // Geteilter Link aus der App („Dardo teilen“): iPhone in den App Store, Android zu Google Play,
+  // am Computer diese Seite mit beiden Knöpfen. Nichts wird gezählt oder gespeichert.
+  // Bis Dardo im jeweiligen Store ist, landet man auf der Hilfe-Seite.
+  // Am Starttag IOS_LIVE bzw. ANDROID_LIVE auf true setzen (launch/fahrplan-einreichung.md).
+  var IOS_LIVE = false;
+  var ANDROID_LIVE = false;
+  var APP_STORE = "https://apps.apple.com/app/id6821426385";
+  var GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=de.salva.dartstrainer";
+  (function () {
+    var ua = navigator.userAgent || "";
+    var iOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    var android = /Android/.test(ua);
+    if (iOS && IOS_LIVE) location.replace(APP_STORE);
+    else if (android && ANDROID_LIVE) location.replace(GOOGLE_PLAY);
+    else if (iOS || android || !(IOS_LIVE || ANDROID_LIVE)) location.replace("../");
+    else document.documentElement.className = (IOS_LIVE ? "ios " : "") + (ANDROID_LIVE ? "android" : "");
+  })();
+</script>
+<style>
+  .stores{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+  .stores a{display:none}
+  .ios .stores a.ios,.android .stores a.android{display:block}
+  .stores a{flex:1 1 220px;text-align:center;padding:14px 18px;border-radius:14px;background:var(--accent);color:#000;font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+<main>
+<header><img src="dardo.png" alt=""><h1>Dardo: Darts Checkout Trainer</h1></header>
+<p>Checkouts im Kopf trainieren. Für iPhone und Android.</p>
+<p lang="en">Train checkouts in your head. For iPhone and Android.</p>
+<div class="stores">
+<a class="ios" href="https://apps.apple.com/app/id6821426385">Im App Store laden</a>
+<a class="android" href="https://play.google.com/store/apps/details?id=de.salva.dartstrainer">Bei Google Play laden</a>
+</div>
+<p><a href="../">Hilfe und Kontakt</a></p>
+</main>
+</body>
+</html>
