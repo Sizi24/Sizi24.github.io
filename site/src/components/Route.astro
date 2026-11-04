@@ -1,0 +1,6 @@
+---
+import FieldMark from './FieldMark.astro';
+interface Props { codes: string[]; value?: boolean }
+const { codes, value = false } = Astro.props;
+---
+{codes.map((c, i) => <>{i > 0 && <span class="dot" aria-hidden="true">·</span>}<FieldMark code={c} value={value} /></>)}

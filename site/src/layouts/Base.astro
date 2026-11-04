@@ -1,0 +1,85 @@
+---
+import { SEO } from 'astro-seo';
+import '../styles/site.css';
+import { SITE, IOS_LIVE, APP_STORE_ID } from '../config';
+import { PAIRS, t, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  page: keyof typeof PAIRS | 'other';
+  jsonld?: object[];
+  noindex?: boolean;
+}
+const { lang, title, description, page, jsonld = [], noindex = false } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = SITE + path;
+const pair = page !== 'other' ? PAIRS[page] : null;
+const twoLang = pair && !pair.en.includes('#');
+const alternates = twoLang ? [
+  { hrefLang: 'de', href: SITE + pair.de },
+  { hrefLang: 'en', href: SITE + pair.en },
+  { hrefLang: 'x-default', href: SITE + pair.en },
+] : [];
+const other = pair ? (lang === 'de' ? pair.en : pair.de) : (lang === 'de' ? '/en/' : '/');
+const home = lang === 'de' ? '/' : '/en/';
+const tableUrl = lang === 'de' ? PAIRS.table.de : PAIRS.table.en;
+const helpUrl = lang === 'de' ? '/hilfe/' : '/hilfe/#en';
+const ogImage = SITE + (lang === 'de' ? '/bilder/teilen-de.png' : '/bilder/teilen-en.png');
+const cur = (p: string) => (path === p ? 'page' : undefined);
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <SEO
+    title={title}
+    description={description}
+    canonical={canonical}
+    noindex={noindex}
+    languageAlternates={alternates}
+    openGraph={{
+      basic: { title, type: 'website', image: ogImage, url: canonical },
+      optional: { description, siteName: 'Dardo', locale: lang === 'de' ? 'de_DE' : 'en_GB' },
+      image: { width: 1200, height: 630, alt: 'Dardo: Darts Checkout Trainer' },
+    }}
+    twitter={{ card: 'summary_large_image', title, description, image: ogImage }}
+    extend={{
+      link: [
+        { rel: 'icon', href: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+      ],
+      meta: [
+        { name: 'theme-color', content: '#0F172C' },
+        ...(IOS_LIVE ? [{ name: 'apple-itunes-app', content: 'app-id=' + APP_STORE_ID }] : []),
+      ],
+    }}
+  />
+  {jsonld.map((j) => <script type="application/ld+json" set:html={JSON.stringify(j)} />)}
+</head>
+<body>
+  <a class="skip" href="#inhalt">{t(lang, 'Zum Inhalt', 'Skip to content')}</a>
+  <div class="stage">
+    <header class="site-head gut"><div class="inner">
+      <a class="brand" href={home}><img src="/bilder/logo-96.png" alt="" width="34" height="34">Dardo</a>
+      <nav aria-label={t(lang, 'Hauptmenü', 'Main menu')}>
+        <a href={tableUrl} aria-current={cur(tableUrl)}>Checkouts</a>
+        <a href={helpUrl} aria-current={cur('/hilfe/')}>{t(lang, 'Hilfe', 'Help')}</a>
+        <a href={other} hreflang={lang === 'de' ? 'en' : 'de'} lang={lang === 'de' ? 'en' : 'de'}>{lang === 'de' ? 'English' : 'Deutsch'}</a>
+      </nav>
+    </div></header>
+    <main id="inhalt"><slot /></main>
+  </div>
+  <hr class="wire">
+  <footer class="foot gut"><div class="inner">
+    <span>Dardo · Salvatore Sicilia</span>
+    <a href={tableUrl}>{t(lang, 'Checkout-Tabelle', 'Checkout chart')}</a>
+    <a href={helpUrl}>{t(lang, 'Hilfe und Kontakt', 'Help and contact')}</a>
+    <a href={lang === 'de' ? '/datenschutz/' : '/datenschutz/#en'}>{t(lang, 'Datenschutz', 'Privacy')}</a>
+    <a href={lang === 'de' ? '/impressum/' : '/impressum/#en'}>{t(lang, 'Impressum', 'Imprint')}</a>
+    <span>{t(lang, 'Kein Konto, keine Werbung, kein Tracking.', 'No account, no ads, no tracking.')}</span>
+  </div></footer>
+</body>
+</html>

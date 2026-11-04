@@ -1,0 +1,49 @@
+---
+// Geteilter Link aus der App („Dardo teilen“). iPhone geht in den App Store, Android zu Google Play,
+// sonst auf die Startseite. Nichts wird gezählt oder gespeichert. Die Karte unter dem Link
+// (WhatsApp, Nachrichten) kommt aus den og-Angaben. Schalter IOS_LIVE/ANDROID_LIVE in src/config.ts.
+import '../styles/site.css';
+import { SITE, IOS_LIVE, ANDROID_LIVE, APP_STORE, GOOGLE_PLAY } from '../config';
+const url = SITE + Astro.url.pathname;
+const title = 'Dardo: Darts Checkout Trainer';
+const desc = 'Checkouts im Kopf trainieren. Für iPhone und Android.';
+const cfg = JSON.stringify({ i: IOS_LIVE, a: ANDROID_LIVE, s: APP_STORE, p: GOOGLE_PLAY });
+---
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={desc}>
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href={SITE + '/'}>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={url}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={desc}>
+  <meta property="og:image" content={SITE + '/bilder/teilen-de.png'}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0F172C">
+  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+  <script is:inline define:vars={{ cfg }}>
+    (function () {
+      var c = JSON.parse(cfg), ua = navigator.userAgent || '';
+      var iOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+      var android = /Android/.test(ua);
+      if (iOS && c.i) location.replace(c.s);
+      else if (android && c.a) location.replace(c.p);
+      else location.replace(/^en\b/i.test(navigator.language || '') ? '/en/' : '/');
+    })();
+  </script>
+</head>
+<body>
+  <div class="gut"><div class="inner narrow" style="padding-block:40px">
+    <h1>{title}</h1>
+    <p>{desc}</p>
+    <p><a href="/">Weiter zu Dardo</a> · <a href="/en/" lang="en">Continue to Dardo</a></p>
+  </div></div>
+</body>
+</html>

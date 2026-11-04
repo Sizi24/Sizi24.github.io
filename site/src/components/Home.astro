@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+import StoreButtons from './StoreButtons.astro';
+import { t, type Lang } from '../i18n';
+import { SITE, IOS_LIVE, ANDROID_LIVE, APP_STORE, GOOGLE_PLAY } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const L = (de: string, en: string) => t(lang, de, en);
+
+// Symbole wie in der App (immer Messing).
+const ICON: Record<string, string> = {
+  stufen: '<circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.5"/>',
+  tabelle: '<rect x="1.8" y="2.5" width="12.4" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M1.8 6.2h12.4M1.8 9.8h12.4M6 2.5v11" stroke="currentColor" stroke-width="1.3"/>',
+  blitz: '<path d="M9.2 1.5 3.6 9h4l-1 5.5L12.4 7H8.3z" fill="currentColor"/>',
+  punkte: '<path d="M12 2.8H4l4.2 5.2L4 13.2h8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>',
+  spiel: '<circle cx="8" cy="8" r="5.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 .8v3.6M8 11.6v3.6M.8 8h3.6M11.6 8h3.6" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/>',
+  caller: '<rect x="5.6" y="1.4" width="4.8" height="8.4" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.2 7.6a4.8 4.8 0 0 0 9.6 0M8 12.4v2.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+  wissen: '<path d="M2.5 3h4.2A1.8 1.8 0 0 1 8.5 4.8V14a1.6 1.6 0 0 0-1.6-1.4H2.5zM13.5 3H9.3a1.8 1.8 0 0 0-1.8 1.8V14a1.6 1.6 0 0 1 1.6-1.4h4.4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>',
+  challenge: '<rect x="2" y="3" width="12" height="11" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 6.6h12M5.2 1.6v2.6M10.8 1.6v2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
+};
+const tiles = [
+  ['', 'stufen', L('Stufen', 'Levels'), L('Finishes lernen, Schritt für Schritt', 'Learn finishes step by step')],
+  ['', 'tabelle', L('Checkout-Tabelle', 'Checkout chart'), L('Profi-Weg, Alternativen, Bogeys', 'Pro route, alternatives, bogeys')],
+  ['var(--blitz)', 'blitz', L('Felder-Blitz', 'Field Blitz'), L('Feldwerte in Sekunden', 'Field values in seconds')],
+  ['var(--punkte)', 'punkte', L('Punkte zählen', 'Count scores'), L('3 Darts im Kopf addieren', 'Add up 3 darts in your head')],
+  ['var(--spiel)', 'spiel', L('Spielcoach', 'Match coach'), L('501 gegen Gegner, Stellen wie die Profis', '501 vs. opponents, set up like the pros')],
+  ['var(--caller)', 'caller', 'Caller', L('Würfe ansagen und den Rest rechnen', 'Call the throws, work out the rest')],
+  ['', 'wissen', L('Wissen', 'Knowledge'), L('16 Kapitel, 115 Lektionen', '16 chapters, 115 lessons')],
+  ['', 'challenge', L('Tages-Challenge', 'Daily challenge'), L('Jeden Tag 5 neue Aufgaben', '5 new tasks every day')],
+];
+const shots = [
+  ['1-feedback', L('Dardo erklärt den Profi-Weg für 121', 'Dardo explains the pro route for 121')],
+  ['3-table', L('Checkout-Tabelle in der App', 'Checkout chart in the app')],
+  ['4-game', L('Spielcoach: 501 gegen einen Gegner', 'Match coach: 501 against an opponent')],
+  ['5-caller', L('Caller: Würfe ansagen wie an der Tafel', 'Caller: call the throws like a scorer')],
+];
+const img = (n: string) => ({
+  src: `/bilder/${lang}-${n}-420.webp`,
+  srcset: `/bilder/${lang}-${n}-420.webp 420w, /bilder/${lang}-${n}-840.webp 840w`,
+});
+const faq = [
+  [L('Ersetzt Dardo das Training am Board?', 'Does Dardo replace practice at the board?'),
+   L('Nein. Am Board trainierst du den Wurf, mit Dardo den Kopf: Rechnen, Wege und Entscheidungen.', 'No. The board trains your throw, Dardo trains your head: maths, routes and decisions.')],
+  [L('Welche Regeln lernt man?', 'Which rules does it teach?'),
+   L('501 und 301 mit Double Out, so wie bei Turnieren und im Verein.', '501 and 301 with double out, as in tournaments and leagues.')],
+  [L('Sammelt Dardo Daten?', 'Does Dardo collect data?'),
+   L('Nein. Kein Konto, keine Werbung, kein Tracking, auch auf dieser Seite nicht.', 'No. No account, no ads, no tracking, not on this site either.')],
+];
+const sameAs = [IOS_LIVE ? APP_STORE : null, ANDROID_LIVE ? GOOGLE_PLAY : null].filter(Boolean);
+const jsonld = [
+  {
+    '@context': 'https://schema.org', '@type': 'MobileApplication',
+    name: 'Dardo: Darts Checkout Trainer', alternateName: 'Dardo',
+    url: SITE + (lang === 'de' ? '/' : '/en/'),
+    description: L('Darts-Training für den Kopf: Checkouts, Rechnen und Spielentscheidungen üben.', 'Darts training for your head: practise checkouts, scoring maths and match decisions.'),
+    operatingSystem: 'iOS, Android', applicationCategory: 'EducationalApplication',
+    inLanguage: ['de', 'en'], image: SITE + '/icon-512.png',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+    author: { '@type': 'Person', name: 'Salvatore Sicilia' },
+    ...(sameAs.length ? { sameAs } : {}),
+  },
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Dardo', url: SITE + '/', inLanguage: lang },
+];
+---
+<Base lang={lang} page="home" jsonld={jsonld}
+  title={L('Dardo: Darts Checkout Trainer für iPhone und Android', 'Dardo: Darts Checkout Trainer for iPhone and Android')}
+  description={L('Am Board trainierst du den Wurf, mit Dardo den Kopf. Checkouts von 2 bis 170, Rechnen und Spielentscheidungen üben. Gratis, ohne Konto, ohne Tracking.', 'The board trains your throw, Dardo trains your head. Practise checkouts from 2 to 170, scoring maths and match decisions. Free, no account, no tracking.')}>
+  <div class="gut"><div class="inner hero">
+    <div>
+      <p class="eyebrow">{L('Darts-Training für den Kopf', 'Darts training for your head')}</p>
+      <h1>{L('Am Board trainierst du den Wurf.', 'The board trains your throw.')} <em>{L('Mit Dardo den Kopf.', 'Dardo trains your head.')}</em></h1>
+      <p class="lead">{L('Checkouts, Rechnen und Spielentscheidungen üben. Vom ersten Pfeil bis zum Profi-Finish.', 'Practise checkouts, scoring maths and match decisions. From your first dart to a pro finish.')}</p>
+      <StoreButtons lang={lang} />
+      <p class="trust">{L('Gratis laden · iPhone und Android · Kein Konto, kein Tracking', 'Free to download · iPhone and Android · No account, no tracking')}</p>
+    </div>
+    <div class="shot-hero"><img {...img('1-feedback')} sizes="300px" width="420" height="913" alt={shots[0][1]} fetchpriority="high"></div>
+  </div></div>
+  <hr class="wire">
+  <section class="blk gut"><div class="inner">
+    <h2>{L('Für dich, egal wo du stehst', 'For you, wherever you are')}</h2>
+    <p class="sub">{L('Dardo ist für die Zeit weg vom Board: im Bus, auf dem Sofa, vor dem Spiel.', 'Dardo is for the time away from the board: on the bus, on the sofa, before a match.')}</p>
+    <div class="doors">
+      <div class="card"><h3>{L('Einsteiger', 'Beginners')}</h3><p>{L('Du lernst, wie man ein Finish rechnet und welches Doppel du stellst. Ohne Tabelle auswendig lernen.', 'Learn how to work out a finish and which double to leave. No chart to memorise.')}</p></div>
+      <div class="card"><h3>{L('Erfahrene', 'Experienced players')}</h3><p>{L('Du hältst Rechnen und schnelle Entscheidungen fit und spielst Wege wie die Profis.', 'Keep your maths and quick decisions sharp and play routes like the pros.')}</p></div>
+    </div>
+  </div></section>
+  <section class="blk gut"><div class="inner">
+    <h2>{L('Was du in Dardo übst', 'What you practise in Dardo')}</h2>
+    <p class="sub">{L('Kurze Runden von etwa 3 Minuten. Dardo merkt sich, was dir schwerfällt, und fragt es wieder.', 'Short rounds of about 3 minutes. Dardo remembers what you find hard and asks it again.')}</p>
+    <div class="tiles">
+      {tiles.map(([c, ico, name, text]) => (
+        <div class="tile" style={c ? `--c:${c}` : undefined}>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" set:html={ICON[ico]} /></span>
+          <b>{name}</b><span>{text}</span>
+        </div>
+      ))}
+    </div>
+  </div></section>
+  <section class="blk gut"><div class="inner">
+    <h2>{L('So sieht Dardo aus', 'This is Dardo')}</h2>
+    <div class="shots">
+      {shots.map(([n, alt]) => <img {...img(n)} sizes="(max-width: 760px) 62vw, 230px" width="420" height="913" alt={alt} loading="lazy" decoding="async">)}
+    </div>
+  </div></section>
+  <section class="blk gut"><div class="inner">
+    <div class="card teaser">
+      <div><h2 class="h2" style="margin:0 0 6px">{L('Wie checkst du 121?', 'How do you check out 121?')}</h2>
+        <p style="margin:0">{L('Alle Finishes von 2 bis 170 mit dem Profi-Weg. Gratis, auch ohne App.', 'Every finish from 2 to 170 with the pro route. Free, no app needed.')}</p></div>
+      <a class="btn" href={lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/'}>{L('Zur Checkout-Tabelle', 'Open the checkout chart')}</a>
+    </div>
+  </div></section>
+  <section class="blk gut"><div class="inner">
+    <h2>{L('Gratis und Pro', 'Free and Pro')}</h2>
+    <div class="free">
+      <div class="card"><span class="pill">{L('Gratis', 'Free')}</span><ul>
+        <li>{L('Alle Wissen-Kapitel mit Kurztests', 'All knowledge chapters with short quizzes')}</li>
+        <li>{L('Checkout-Tabelle, Bogeys und Lexikon', 'Checkout chart, bogeys and glossary')}</li>
+        <li>{L('Tages-Challenge jeden Tag', 'Daily challenge every day')}</li>
+        <li>{L('Jede Spielart 3-mal zum Ausprobieren', 'Try every mode 3 times')}</li></ul></div>
+      <div class="card"><span class="pill">Dardo Pro</span><ul>
+        <li>{L('Einmal kaufen, kein Abo', 'Buy once, no subscription')}</li>
+        <li>{L('Training, Spielcoach und Caller ohne Grenze', 'Unlimited training, match coach and caller')}</li>
+        <li>{L('Eigene Wege, Einstufungstest, großer Wissenstest', 'Own routes, placement test, big knowledge test')}</li>
+        <li>{L('Familienfreigabe auf dem iPhone', 'Family Sharing on iPhone')}</li></ul></div>
+    </div>
+  </div></section>
+  <section class="blk gut faq"><div class="inner">
+    <h2>{L('Häufige Fragen', 'Questions')}</h2>
+    {faq.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}
+    <p class="sub" style="margin-top:14px"><a href={lang === 'de' ? '/hilfe/' : '/hilfe/#en'}>{L('Mehr Fragen und Kontakt', 'More questions and contact')}</a></p>
+  </div></section>
+</Base>

@@ -1,0 +1,14 @@
+---
+import { IOS_LIVE, ANDROID_LIVE, APP_STORE, GOOGLE_PLAY } from '../config';
+import { t, type Lang } from '../i18n';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<div class="stores">
+  {IOS_LIVE
+    ? <a class="store" href={APP_STORE}><small>{t(lang, 'Laden im', 'Download on the')}</small>App Store</a>
+    : <span class="store soon"><small>{t(lang, 'Bald im', 'Coming soon to the')}</small>App Store</span>}
+  {ANDROID_LIVE
+    ? <a class="store ghost" href={GOOGLE_PLAY}><small>{t(lang, 'Jetzt bei', 'Get it on')}</small>Google Play</a>
+    : <span class="store ghost soon"><small>{t(lang, 'Bald bei', 'Coming soon to')}</small>Google Play</span>}
+</div>

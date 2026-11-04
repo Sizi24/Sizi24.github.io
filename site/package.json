@@ -1,0 +1,15 @@
+{
+  "name": "dardo-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "daten": "node scripts/checkouts-aus-app.mjs",
+    "build": "astro build",
+    "dev": "astro dev"
+  },
+  "dependencies": {
+    "astro": "7.4.1",
+    "@astrojs/sitemap": "3.7.4",
+    "astro-seo": "1.2.0"
+  }
+}

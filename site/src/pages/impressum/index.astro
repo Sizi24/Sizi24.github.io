@@ -1,0 +1,11 @@
+---
+// Inhalt unverändert von der bisherigen Seite dardo/impressum.html übernommen (nur Links angepasst).
+import Base from '../../layouts/Base.astro';
+import body from './body.html.txt?raw';
+---
+<Base lang="de" page="imprint" title="Dardo: Impressum / Imprint" description="Impressum von Dardo. Imprint of Dardo.">
+  <div class="gut"><div class="inner narrow prose">
+    <h1>Impressum</h1>
+    <Fragment set:html={body} />
+  </div></div>
+</Base>
