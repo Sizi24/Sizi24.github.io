@@ -62,7 +62,6 @@ const jsonld = [
     operatingSystem: 'iOS, Android', applicationCategory: 'EducationalApplication',
     inLanguage: ['de', 'en'], image: SITE + '/icon-512.png',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
-    author: { '@type': 'Person', name: 'Salvatore Sicilia' },
     ...(sameAs.length ? { sameAs } : {}),
   },
   { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Dardo', url: SITE + '/', inLanguage: lang },
