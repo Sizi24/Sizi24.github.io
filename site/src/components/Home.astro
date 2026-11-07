@@ -32,8 +32,6 @@ const modes: Mode[] = [
   { c: 'var(--caller)', ico: 'caller', name: 'Caller',
     text: L('Du sagst jede Aufnahme an und rechnest den neuen Rest.', 'Call each visit and work out what is left.') },
 ];
-// Wissen wie in der App: drei Stufen, Kapitel aus DartsTrainer/Content/KnowledgeContent.swift.
-const levels = [[8, L('Grundlagen', 'Basics')], [5, L('Fortgeschritten', 'Advanced')], [3, L('Profi', 'Pro')]] as const;
 const shots = [
   ['1-feedback', L('Dardo erklärt den Profi-Weg für 121', 'Dardo explains the pro route for 121')],
   ['3-table', L('Checkout-Tabelle in der App', 'Checkout chart in the app')],
@@ -85,7 +83,7 @@ const jsonld = [
     <p class="sub">{L('Dardo ist für die Zeit ohne Board: im Bus, auf dem Sofa, vor dem Spiel.', 'Dardo is for the time away from the board: on the bus, on the sofa, before a match.')}</p>
     <div class="doors">
       <div class="card"><h3>{L('Einsteiger', 'Beginners')}</h3><p>{L('Du lernst, ein Finish selbst zu rechnen und dir ein gutes Doppel zu stellen. Keine Tabelle zum Auswendiglernen.', 'Learn to work out a finish yourself and leave a good double. No chart to memorise.')}</p></div>
-      <div class="card"><h3>{L('Erfahrene', 'Experienced players')}</h3><p>{L('Du hältst Rechnen und schnelle Entscheidungen fit und spielst Wege wie die Profis.', 'Keep your maths and quick decisions sharp and play routes like the pros.')}</p></div>
+      <div class="card"><h3>{L('Erfahrene', 'Experienced players')}</h3><p>{L('Du rechnest schneller, entscheidest sicherer und spielst die Wege der Profis.', 'Count faster, decide with confidence and play the routes the pros play.')}</p></div>
     </div>
   </div></section>
   <section class="blk gut"><div class="inner">
@@ -99,18 +97,12 @@ const jsonld = [
           <span class="say">{m.text}</span>
         </li>
       ))}
-    </ul>
-    <div class="tile wissen">
-      <div class="w-head">
+      <li class="tile mode">
         <span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" set:html={ICON.wissen} /></span>
         <b>{L('Wissen', 'Knowledge')}</b>
-        <span class="pill">{L('Gratis', 'Free')}</span>
-        <span class="say">{L('Von deinen Darts bis zur Profi-Tour: 16 Kapitel mit 115 kurzen Lektionen.', 'From your darts to the pro tour: 16 chapters with 115 short lessons.')}</span>
-      </div>
-      <ul class="w-levels">
-        {levels.map(([n, name]) => <li><span class="w-n">{n}</span><span class="w-l">{name}</span></li>)}
-      </ul>
-    </div>
+        <span class="say">{L('Von deinen Darts bis zur Profi-Tour: 16\u00a0Kapitel mit 115\u00a0kurzen Lektionen.', 'From your darts to the pro tour: 16\u00a0chapters with 115\u00a0short lessons.')}</span>
+      </li>
+    </ul>
     <p class="also"><b>{L('Außerdem:', 'Also:')}</b> {L('Checkout-Tabelle mit Bogeys · Tages-Challenge, jeden Tag neu', 'Checkout chart with bogeys · Daily challenge, new every day')}</p>
   </div></section>
   <section class="blk gut"><div class="inner">
