@@ -196,7 +196,7 @@ p, li { text-wrap: pretty; }
    Feste Plätze je Dart wie am Bildschirm, damit die Feldmarken in einer Flucht stehen. Boardfarben bleiben. */
 .print-only, .grp { display: none; }
 @media print {
-  @page { size: A4; margin: 8mm 9mm 8mm; }
+  @page { size: A4; margin: 7mm 9mm 7mm; }
   html, body, .stage { background: #fff !important; color: var(--p-ink); }
   body { font-size: 8pt; line-height: 1.25; }
   .site-head, .foot, .wire, .tools, .crumb, .noprint, .skip, .page-head, .legend, .empty, .gen-form { display: none !important; }
@@ -208,12 +208,15 @@ p, li { text-wrap: pretty; }
   .ph-title { flex: 1; display: flex; flex-direction: column; }
   .ph-title b { font-size: 14pt; line-height: 1.15; color: var(--p-ink); }
   .ph-title span { font-size: 8.5pt; color: var(--p-mute); }
-  .ph-site { font-size: 9pt; font-weight: 700; color: var(--brass-dark); }
+  .ph-qr { display: flex; align-items: center; gap: 2.2mm; text-align: right; font-size: 7pt; color: var(--p-mute); }
+  .ph-qr b { display: block; font-size: 9pt; color: var(--brass-dark); }
+  .ph-qr .qr { display: block; width: 15mm; height: 15mm; }
+  .ph-qr .qr svg { display: block; width: 100%; height: 100%; }
   .ph-legend { margin: 1.6mm 0 0; font-size: 7.5pt; color: var(--p-mute); }
   .rows { display: block !important; columns: 3; column-gap: 6mm; column-rule: .4pt solid var(--p-line); }
   .grp { display: block; break-after: avoid; break-inside: avoid; font-size: 7.5pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--brass-dark); border-bottom: .6pt solid var(--brass-dark); padding: 0 0 .5mm; margin: 1.8mm 0 .4mm; }
   .grp:first-child { margin-top: 0; }
-  .row, .row[hidden] { display: grid !important; grid-template-columns: 7mm 1fr; align-items: center; gap: 0; background: none; box-shadow: none; border-radius: 0; padding: .12mm 0; border-bottom: .3pt solid var(--p-line); color: var(--p-ink); break-inside: avoid; }
+  .row, .row[hidden] { display: grid !important; grid-template-columns: 7mm 1fr; align-items: center; gap: 0; background: none; box-shadow: none; border-radius: 0; padding: .04mm 0; border-bottom: .3pt solid var(--p-line); color: var(--p-ink); break-inside: avoid; }
   .row .n { width: auto; font-size: 8.5pt; color: var(--p-ink); }
   .row .rt { font-size: 7.4pt; grid-template-columns: 13.6mm 2.6mm 13.6mm 2.6mm 13.6mm; }
   .row .dot { color: var(--p-mute); }

@@ -8,8 +8,9 @@
     "dev": "astro dev"
   },
   "dependencies": {
-    "astro": "7.4.1",
     "@astrojs/sitemap": "3.7.4",
-    "astro-seo": "1.2.0"
+    "astro": "7.4.1",
+    "astro-seo": "1.2.0",
+    "qrcode": "1.5.4"
   }
 }
