@@ -1,0 +1,14 @@
+---
+// Kopf der Druckvorlage (nur beim Drucken sichtbar): Logo, Titel, Zusatz, Erklärung der Felder, Adresse.
+import { t, type Lang } from '../i18n';
+interface Props { lang: Lang; title: string; sub?: string }
+const { lang, title, sub } = Astro.props;
+---
+<div class="print-head print-only">
+  <div class="ph-top">
+    <img src="/bilder/logo-96.png" alt="" width="28" height="28">
+    <div class="ph-title"><b>{title}</b>{sub && <span id="ph-sub">{sub}</span>}</div>
+    <span class="ph-site">dardoapp.com</span>
+  </div>
+  <p class="ph-legend">{t(lang, 'T = Triple · D = Doppel · Zahl allein = Single · Bull = 50 · 25 = Single Bull · Double Out: der letzte Dart trifft ein Doppel oder das Bull.', 'T = treble · D = double · number alone = single · Bull = 50 · 25 = outer bull · Double out: the last dart hits a double or the bull.')}</p>
+</div>

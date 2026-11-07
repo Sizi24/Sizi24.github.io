@@ -1,0 +1,180 @@
+---
+// Checkout-Liste zum Ausdrucken: Lieblings-Doppel und Bereich wählen, Liste wie die Checkout-Tabelle.
+// Wege mit Lieblings-Doppel genau wie in der App (CheckoutTable.swift favouriteRaw, Änderung 333/336).
+import Base from '../layouts/Base.astro';
+import FieldMark from './FieldMark.astro';
+import PrintHead from './PrintHead.astro';
+import { t, PAIRS, type Lang } from '../i18n';
+import { SITE } from '../config';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const L = (de: string, en: string) => t(lang, de, en);
+const home = lang === 'de' ? '/' : '/en/';
+const self = lang === 'de' ? PAIRS.list.de : PAIRS.list.en;
+const table = lang === 'de' ? PAIRS.table.de : PAIRS.table.en;
+const DOUBLES = [20, 16, 18, 10, 12, 8];
+const RANGES = [[2, 170], [2, 40], [41, 100], [101, 170]];
+const title = L('Checkout-Liste erstellen: mit deinem Lieblings-Doppel', 'Make your own darts checkout list with your favourite double');
+const jsonld = [{
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Dardo', item: SITE + home },
+    { '@type': 'ListItem', position: 2, name: L('Checkout-Liste', 'Checkout list'), item: SITE + self },
+  ],
+}];
+---
+<Base lang={lang} page="list" jsonld={jsonld} title={title}
+  description={L('Deine eigene Checkout-Liste zum Ausdrucken: Lieblings-Doppel wählen, Bereich wählen, fertig. Profi-Wege wie in der App Dardo.', 'Your own checkout list to print: pick your favourite double and a range. Pro routes as in the Dardo app.')}>
+  <div class="gut"><div class="inner" style="padding-block:18px 30px" id="gen"
+    data-lang={lang}
+    data-fav={L('Dein Doppel', 'Your double')}
+    data-sub-pro={L('Profi-Wege', 'Pro routes')}
+    data-sub-fav={L('Lieblings-Doppel D#', 'Favourite double D#')}
+    data-to={L('bis', 'to')}
+    data-count={L('# Finishes', '# finishes')}
+    data-count-fav={L('# Finishes, davon $ auf dein Doppel umgestellt', '# finishes, $ of them moved onto your double')}
+    data-bogeys={L('Kein Finish mit drei Darts (Bogeys):', 'No three-dart finish (bogeys):')}
+    data-copied={L('Link kopiert', 'Link copied')}
+    data-legend-fav={L('Goldene Zahl: Weg auf dein Lieblings-Doppel.', 'Gold number: route onto your favourite double.')}>
+    <nav class="crumb" aria-label={L('Brotkrumen', 'Breadcrumb')}><a href={home}>Dardo</a> › {L('Checkout-Liste', 'Checkout list')}</nav>
+    <PrintHead lang={lang} title={L('Meine Checkout-Liste', 'My checkout list')} sub={L('Profi-Wege', 'Pro routes')} />
+    <div class="page-head">
+      <h1>{L('Deine eigene Checkout-Liste', 'Your own checkout list')}</h1>
+      <p>{L('Wähle dein Lieblings-Doppel und den Bereich, dann drucken.', 'Pick your favourite double and a range, then print.')}</p>
+    </div>
+    <form class="card gen-form" id="form" onsubmit="return false">
+      <fieldset>
+        <legend>{L('Lieblings-Doppel', 'Favourite double')}</legend>
+        <div class="seg">
+          <label><input type="radio" name="d" value="0" checked><span>{L('Keins', 'None')}</span></label>
+          {DOUBLES.map((d) => <label class="dbl"><input type="radio" name="d" value={d}><span><FieldMark code={'D' + d} /></span></label>)}
+        </div>
+        <p class="hint">{L('Zählt nur bei gleich vielen Darts, wo es kaum etwas kostet. Genau wie in der App.', 'Only with the same number of darts, where it costs almost nothing. Just like in the app.')}</p>
+      </fieldset>
+      <fieldset>
+        <legend>{L('Bereich', 'Range')}</legend>
+        <div class="seg">
+          {RANGES.map(([a, b], i) => <label><input type="radio" name="r" value={a + '-' + b} checked={i === 0}><span>{i === 0 ? L('Alle', 'All') : a + '–' + b}</span></label>)}
+          <label><input type="radio" name="r" value="eigen"><span>{L('Eigener', 'Custom')}</span></label>
+        </div>
+        <div class="own" id="own" hidden>
+          <label>{L('von', 'from')} <input type="number" id="von" min="2" max="170" value="2" inputmode="numeric"></label>
+          <label>{L('bis', 'to')} <input type="number" id="bis" min="2" max="170" value="170" inputmode="numeric"></label>
+        </div>
+      </fieldset>
+      <label class="check"><input type="checkbox" id="werte" checked> {L('Werte zeigen, z. B. T20 (60)', 'Show values, e.g. T20 (60)')}</label>
+    </form>
+    <div class="tools gen-tools">
+      <p class="count" id="count" role="status" aria-live="polite"></p>
+      <button class="btn" type="button" id="drucken">{L('Als PDF drucken', 'Print as PDF')}</button>
+      <button class="btn ghost" type="button" id="teilen">{L('Link kopieren', 'Copy link')}</button>
+    </div>
+    <ul class="rows" id="rows"></ul>
+    <div class="card bogey" id="bogey" hidden></div>
+    <p class="print-foot print-only">{L('Erstellt auf dardoapp.com. Die App Dardo übt jeden Rest mit dir.', 'Made at dardoapp.com. The Dardo app practises every score with you.')}</p>
+    <noscript><p class="note">{L('Ohne JavaScript geht der Generator nicht. Die ganze Tabelle findest du hier:', 'The generator needs JavaScript. The full chart is here:')} <a href={table}>{L('Checkout-Tabelle', 'Checkout chart')}</a></p></noscript>
+    <p class="note noprint">{L('Alle Wege mit Erklärung:', 'All routes explained:')} <a href={table}>{L('Checkout-Tabelle 2 bis 170', 'Checkout chart 2 to 170')}</a></p>
+  </div></div>
+  <script>
+    import data from '../data/checkouts.json';
+    import { field } from '../lib/field';
+    const root = document.getElementById('gen')!;
+    const S = root.dataset as Record<string, string>;
+    const first = data.first as Record<string, string[]>;
+    const favourite = data.favourite as Record<string, Record<string, string[]>>;
+    const GROUPS = [170, 130, 100, 80, 60, 40, 20];
+    const form = document.getElementById('form') as HTMLFormElement;
+    const own = document.getElementById('own')!;
+    const von = document.getElementById('von') as HTMLInputElement;
+    const bis = document.getElementById('bis') as HTMLInputElement;
+    const werte = document.getElementById('werte') as HTMLInputElement;
+    const list = document.getElementById('rows')!;
+    const bogey = document.getElementById('bogey')!;
+    const count = document.getElementById('count')!;
+    const sub = document.getElementById('ph-sub');
+    const legend = document.querySelector('.ph-legend');
+    const baseLegend = legend?.textContent || '';
+
+    const el = (tag: string, cls?: string, text?: string) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; };
+    function route(codes: string[], value: boolean) {
+      const rt = el('span', 'rt');
+      codes.forEach((c, i) => {
+        if (i > 0) { const d = el('span', 'dot', '·'); d.setAttribute('aria-hidden', 'true'); rt.append(d); }
+        const f = field(c), dv = el('span', 'dv');
+        dv.append(el('span', 'fm ' + f.cls, f.label));
+        if (value && f.v !== null) dv.append(el('span', 'val', '(' + f.v + ')'));
+        rt.append(dv);
+      });
+      return rt;
+    }
+    const clamp = (n: number) => Math.min(170, Math.max(2, Math.round(n) || 2));
+
+    function read() {
+      const fd = new FormData(form);
+      const d = Number(fd.get('d')) || 0;
+      const r = String(fd.get('r'));
+      let a = 2, b = 170;
+      if (r === 'eigen') { a = clamp(Number(von.value)); b = clamp(Number(bis.value)); if (a > b) [a, b] = [b, a]; }
+      else [a, b] = r.split('-').map(Number);
+      return { d, r, a, b, w: werte.checked };
+    }
+
+    function render() {
+      const s = read();
+      own.hidden = s.r !== 'eigen';
+      const fav = s.d ? favourite[String(s.d)] || {} : {};
+      list.textContent = '';
+      let n = 0, moved = 0, group = -1;
+      for (let r = s.b; r >= s.a; r--) {
+        if (!first[r]) continue;
+        const g = GROUPS.findIndex((top, k) => r <= top && r > (GROUPS[k + 1] ?? 1));
+        if (g !== group) {
+          group = g;
+          const top = Math.min(GROUPS[g], s.b), low = Math.max((GROUPS[g + 1] ?? 1) + 1, s.a);
+          const h = el('li', 'grp', top + ' ' + S.to + ' ' + low); h.setAttribute('aria-hidden', 'true'); list.append(h);
+        }
+        const mine = fav[String(r)];
+        const li = el('li', 'row' + (mine ? ' fav' : ''));
+        li.append(el('span', 'n', String(r)), route(mine || first[r], s.w));
+        if (mine) { li.append(el('span', 'tag', S.fav)); moved++; }
+        list.append(li); n++;
+      }
+      count.textContent = (s.d ? S.countFav.replace('$', String(moved)) : S.count).replace('#', String(n));
+      const bg = data.bogeys.filter((x) => x >= s.a && x <= s.b);
+      bogey.hidden = !bg.length;
+      bogey.textContent = '';
+      if (bg.length) { bogey.append(el('b', '', S.bogeys), ' ' + bg.join(', ') + '.'); }
+      const range = s.a === 2 && s.b === 170 ? '2 ' + S.to + ' 170' : s.b + ' ' + S.to + ' ' + s.a;
+      if (sub) sub.textContent = (s.d ? S.subFav.replace('#', String(s.d)) : S.subPro) + ' · ' + range;
+      if (legend) legend.textContent = baseLegend + (s.d ? ' ' + S.legendFav : '');
+      // Einstellungen in der Adresse, damit man die Liste teilen kann.
+      const p = new URLSearchParams();
+      if (s.d) p.set('doppel', String(s.d));
+      if (s.a !== 2 || s.b !== 170) { p.set('von', String(s.a)); p.set('bis', String(s.b)); }
+      if (!s.w) p.set('werte', '0');
+      history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : ''));
+    }
+
+    // Einstellungen aus der Adresse übernehmen.
+    const q = new URLSearchParams(location.search);
+    const qd = q.get('doppel');
+    if (qd) { const input = form.querySelector<HTMLInputElement>(`input[name=d][value="${CSS.escape(qd)}"]`); if (input) input.checked = true; }
+    if (q.has('von') || q.has('bis')) {
+      const a = clamp(Number(q.get('von') || 2)), b = clamp(Number(q.get('bis') || 170));
+      const preset = form.querySelector<HTMLInputElement>(`input[name=r][value="${a}-${b}"]`);
+      if (preset) preset.checked = true;
+      else { form.querySelector<HTMLInputElement>('input[name=r][value=eigen]')!.checked = true; von.value = String(a); bis.value = String(b); }
+    }
+    if (q.get('werte') === '0') werte.checked = false;
+
+    form.addEventListener('input', render);
+    form.addEventListener('change', render);
+    render();
+    document.getElementById('drucken')!.addEventListener('click', () => window.print());
+    const teilen = document.getElementById('teilen')!;
+    const teilenText = teilen.textContent;
+    teilen.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(location.href); teilen.textContent = S.copied; setTimeout(() => (teilen.textContent = teilenText), 1600); } catch { /* Kopieren nicht erlaubt: Adresse steht oben im Browser. */ }
+    });
+  </script>
+</Base>

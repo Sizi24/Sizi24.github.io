@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 const SITE = 'https://dardoapp.com';
 // Seitenpaare wie in src/i18n.ts (nur Seiten mit eigener englischer Adresse).
-const PAIRS = [['/', '/en/'], ['/checkout-tabelle/', '/en/checkout-chart/']];
+const PAIRS = [['/', '/en/'], ['/checkout-tabelle/', '/en/checkout-chart/'], ['/checkout-liste/', '/en/checkout-list/']];
 
 export default defineConfig({
   site: SITE,

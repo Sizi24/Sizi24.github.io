@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Route from './Route.astro';
+import PrintHead from './PrintHead.astro';
 import { t, type Lang } from '../i18n';
 import { SITE } from '../config';
 import data from '../data/checkouts.json';
@@ -13,6 +14,11 @@ const home = lang === 'de' ? '/' : '/en/';
 const self = lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/';
 const title = L('Checkout-Tabelle Darts: alle Finishes von 2 bis 170', 'Darts checkout chart: every finish from 2 to 170');
 const JUMP = [170, 130, 100, 80, 60, 40, 20];
+// Abschnitte der Druckvorlage: 170 bis 131, 130 bis 101, ...
+const GROUPS = [170, 130, 100, 80, 60, 40, 20];
+// Je Abschnitt der erste vorhandene Rest, davor steht die Überschrift (nur im Druck sichtbar).
+const groupAt = new Map<number, string>();
+GROUPS.forEach((g, k) => { const low = (GROUPS[k + 1] ?? 1) + 1; const r = rows.find((x) => x <= g && x >= low); if (r) groupAt.set(r, g + ' ' + L('bis', 'to') + ' ' + low); });
 const jsonld = [{
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
   itemListElement: [
@@ -25,10 +31,10 @@ const jsonld = [{
   description={L('Die komplette Darts-Checkout-Tabelle: der Profi-Weg für jeden Rest von 2 bis 170 mit Double Out, dazu alle Bogey-Zahlen. Zum Nachschlagen und Ausdrucken.', 'The complete darts checkout chart: the pro route for every score from 2 to 170 with double out, plus all bogey numbers. Look it up or print it.')}>
   <div class="gut"><div class="inner" style="padding-block:18px 30px">
     <nav class="crumb" aria-label={L('Brotkrumen', 'Breadcrumb')}><a href={home}>Dardo</a> › {L('Checkout-Tabelle', 'Checkout chart')}</nav>
+    <PrintHead lang={lang} title={L('Checkout-Tabelle 2 bis 170', 'Checkout chart 2 to 170')} sub={L('Profi-Wege wie in der App Dardo', 'Pro routes as in the Dardo app')} />
     <div class="page-head">
       <h1>{L('Checkout-Tabelle: alle Finishes von 2 bis 170', 'Darts checkout chart: every finish from 2 to 170')}</h1>
       <p>{L('So spielen Profis jeden Rest mit Double Out. Der letzte Dart muss ein Doppel oder das Bull treffen.', 'How pros play every score with double out. The last dart has to hit a double or the bull.')}</p>
-      <p class="print-only">{L('Dardo Checkout-Tabelle · dardoapp.com', 'Dardo checkout chart · dardoapp.com')}</p>
     </div>
     <div class="tools">
       <label class="search" for="q"><span aria-hidden="true" style="color:var(--t60)">⌕</span>
@@ -41,14 +47,21 @@ const jsonld = [{
     <p class="legend">{L('T = Triple, D = Doppel, Zahl allein = Single, Bull = 50, 25 = Single Bull.', 'T = treble, D = double, number alone = single, Bull = 50, 25 = outer bull.')}</p>
     <nav class="jump noprint" id="jump" aria-label={L('Springen zu', 'Jump to')}>{JUMP.map((n) => <a href={'#r' + n}>{n}</a>)}</nav>
     <ul class="rows" id="rows">
-      {rows.map((r) => (
+      {rows.map((r) => (<>
+        {groupAt.has(r) && <li class="grp" aria-hidden="true">{groupAt.get(r)}</li>}
         <li class="row" data-n={r} id={'r' + r}>
           <span class="n">{r}</span>
           <span class="rt"><Route codes={first[r]} value /></span>
         </li>
-      ))}
+      </>))}
     </ul>
     <div class="card bogey"><b>{L('Kein Finish mit drei Darts (Bogeys):', 'No three-dart finish (bogeys):')}</b> <span style="color:var(--t72)">{data.bogeys.join(', ')}.</span></div>
+    <p class="print-foot print-only">{L('Nicht nachschlagen, sondern können: Die App Dardo übt jeden Rest mit dir. dardoapp.com', 'Don’t look it up, know it: the Dardo app practises every score with you. dardoapp.com')}</p>
+    <div class="card app-card noprint">
+      <b>{L('Deine eigene Liste zum Ausdrucken', 'Your own list to print')}</b>
+      <p>{L('Mit deinem Lieblings-Doppel und nur den Zahlen, die du brauchst.', 'With your favourite double and only the scores you need.')}</p>
+      <a class="btn ghost" href={lang === 'de' ? '/checkout-liste/' : '/en/checkout-list/'}>{L('Liste erstellen', 'Make a list')}</a>
+    </div>
     <div class="card app-card noprint">
       <b>{L('Den Weg nicht nachschlagen, sondern können.', 'Don’t look the route up. Know it.')}</b>
       <p>{L('Dardo erklärt dir das Warum und übt jeden Rest mit dir, bis er sitzt. Die Wege sind dieselben wie in dieser Tabelle.', 'Dardo explains the why and practises every score with you until it sticks. The routes are the same as in this chart.')}</p>

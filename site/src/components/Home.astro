@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import StoreButtons from './StoreButtons.astro';
+import Route from './Route.astro';
+import FieldMark from './FieldMark.astro';
 import { t, type Lang } from '../i18n';
 import { SITE, IOS_LIVE, ANDROID_LIVE, APP_STORE, GOOGLE_PLAY } from '../config';
 interface Props { lang: Lang }
@@ -18,15 +20,20 @@ const ICON: Record<string, string> = {
   wissen: '<path d="M2.5 3h4.2A1.8 1.8 0 0 1 8.5 4.8V14a1.6 1.6 0 0 0-1.6-1.4H2.5zM13.5 3H9.3a1.8 1.8 0 0 0-1.8 1.8V14a1.6 1.6 0 0 1 1.6-1.4h4.4z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>',
   challenge: '<rect x="2" y="3" width="12" height="11" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 6.6h12M5.2 1.6v2.6M10.8 1.6v2.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
 };
-const tiles = [
-  ['', 'stufen', L('Stufen', 'Levels'), L('Finishes lernen, Schritt für Schritt', 'Learn finishes step by step')],
-  ['', 'tabelle', L('Checkout-Tabelle', 'Checkout chart'), L('Profi-Weg, Alternativen, Bogeys', 'Pro route, alternatives, bogeys')],
-  ['var(--blitz)', 'blitz', L('Felder-Blitz', 'Field Blitz'), L('Feldwerte in Sekunden', 'Field values in seconds')],
-  ['var(--punkte)', 'punkte', L('Punkte zählen', 'Count scores'), L('3 Darts im Kopf addieren', 'Add up 3 darts in your head')],
-  ['var(--spiel)', 'spiel', L('Spielcoach', 'Match coach'), L('501 gegen Gegner, Stellen wie die Profis', '501 vs. opponents, set up like the pros')],
-  ['var(--caller)', 'caller', 'Caller', L('Würfe ansagen und den Rest rechnen', 'Call the throws, work out the rest')],
-  ['', 'wissen', L('Wissen', 'Knowledge'), L('16 Kapitel, 115 Lektionen', '16 chapters, 115 lessons')],
-  ['', 'challenge', L('Tages-Challenge', 'Daily challenge'), L('Jeden Tag 5 neue Aufgaben', '5 new tasks every day')],
+// Spielarten wie auf der Startseite der App (von leicht nach schwer), je mit einem echten Beispiel.
+// Felder als Feldmarken, Zahlen bleiben Zahlen (design/wege-und-chips.md).
+type Mode = { c: string; ico: string; name: string; text: string; say: string };
+const modes: Mode[] = [
+  { c: '', ico: 'stufen', name: L('Stufen', 'Levels'), text: L('Finishes lernen, Schritt für Schritt.', 'Learn finishes step by step.'),
+    say: L('Beispiel: 121 ist T20, T11, D14.', 'Example: 121 is T20, T11, D14.') },
+  { c: 'var(--blitz)', ico: 'blitz', name: L('Felder-Blitz', 'Segment blitz'), text: L('Feldwerte in Sekunden.', 'Segment values in seconds.'),
+    say: L('Beispiel: T17 ist 51.', 'Example: T17 is 51.') },
+  { c: 'var(--punkte)', ico: 'punkte', name: L('Punkte zählen', 'Scoring'), text: L('3 Darts im Kopf addieren.', 'Add up 3 darts in your head.'),
+    say: L('Beispiel: T20, 19 und T19 sind 136.', 'Example: T20, 19 and T19 make 136.') },
+  { c: 'var(--spiel)', ico: 'spiel', name: L('Spielcoach', 'Match coach'), text: L('501 gegen Gegner. Der Coach sagt, was Profis spielen.', '501 against opponents. The coach says what pros play.'),
+    say: L('Beispiel: 81 Rest mit 2 Darts, besser T19.', 'Example: 81 left with 2 darts, better T19.') },
+  { c: 'var(--caller)', ico: 'caller', name: 'Caller', text: L('Würfe ansagen und den Rest rechnen.', 'Call the throws and work out what is left.'),
+    say: L('Beispiel: T20, T20, 20 sind 140, Rest 361.', 'Example: T20, T20, 20 is 140, 361 left.') },
 ];
 const shots = [
   ['1-feedback', L('Dardo erklärt den Profi-Weg für 121', 'Dardo explains the pro route for 121')],
@@ -86,14 +93,22 @@ const jsonld = [
   <section class="blk gut"><div class="inner">
     <h2>{L('Was du in Dardo übst', 'What you practise in Dardo')}</h2>
     <p class="sub">{L('Kurze Runden von etwa 3 Minuten. Dardo merkt sich, was dir schwerfällt, und fragt es wieder.', 'Short rounds of about 3 minutes. Dardo remembers what you find hard and asks it again.')}</p>
-    <div class="tiles">
-      {tiles.map(([c, ico, name, text]) => (
-        <div class="tile" style={c ? `--c:${c}` : undefined}>
-          <span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" set:html={ICON[ico]} /></span>
-          <b>{name}</b><span>{text}</span>
-        </div>
+    <ul class="modes">
+      {modes.map((m) => (
+        <li class="tile mode" style={m.c ? `--c:${m.c}` : undefined}>
+          <span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" set:html={ICON[m.ico]} /></span>
+          <div class="mt"><b>{m.name}</b><span>{m.text}</span></div>
+          <div class="ex"><span class="sr">{m.say}</span><span class="ex-v" aria-hidden="true">
+            {m.ico === 'stufen' && <><span class="num">121</span><span class="arr">→</span><Route codes={['T20', 'T11', 'D14']} /></>}
+            {m.ico === 'blitz' && <><FieldMark code="T17" /><span class="arr">→</span><span class="num">51</span></>}
+            {m.ico === 'punkte' && <><Route codes={['T20', 'S19', 'T19']} /><span class="arr">→</span><span class="num">136</span></>}
+            {m.ico === 'spiel' && <><span class="num">81</span><span class="k">{L('2 Darts', '2 darts')}</span><span class="bad">{L('Besser:', 'Better:')}</span><FieldMark code="T19" value /></>}
+            {m.ico === 'caller' && <><Route codes={['T20', 'T20', 'S20']} /><span class="arr">→</span><span class="num">140</span><span class="k">{L('Rest 361', '361 left')}</span></>}
+          </span></div>
+        </li>
       ))}
-    </div>
+    </ul>
+    <p class="also"><b>{L('Außerdem:', 'Also:')}</b> {L('Checkout-Tabelle mit Bogeys · Wissen in 16 Kapiteln mit 115 Lektionen · Tages-Challenge jeden Tag', 'Checkout chart with bogeys · Knowledge in 16 chapters with 115 lessons · A daily challenge')}</p>
   </div></section>
   <section class="blk gut"><div class="inner">
     <h2>{L('So sieht Dardo aus', 'This is Dardo')}</h2>
@@ -105,7 +120,10 @@ const jsonld = [
     <div class="card teaser">
       <div><h2 class="h2" style="margin:0 0 6px">{L('Wie checkst du 121?', 'How do you check out 121?')}</h2>
         <p style="margin:0">{L('Alle Finishes von 2 bis 170 mit dem Profi-Weg. Gratis, auch ohne App.', 'Every finish from 2 to 170 with the pro route. Free, no app needed.')}</p></div>
-      <a class="btn" href={lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/'}>{L('Zur Checkout-Tabelle', 'Open the checkout chart')}</a>
+      <div class="teaser-btns">
+        <a class="btn" href={lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/'}>{L('Zur Checkout-Tabelle', 'Open the checkout chart')}</a>
+        <a class="btn ghost" href={lang === 'de' ? '/checkout-liste/' : '/en/checkout-list/'}>{L('Eigene Liste erstellen', 'Make your own list')}</a>
+      </div>
     </div>
   </div></section>
   <section class="blk gut"><div class="inner">
