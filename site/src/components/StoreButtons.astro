@@ -1,14 +1,19 @@
 ---
+// Store-Knöpfe. Solange keine App im Store ist, führt der Messing-Knopf zur Checkout-Tabelle
+// und die Store-Knöpfe stehen ruhig umrandet daneben (Prüfung 7.11.). Am Starttag IOS_LIVE/ANDROID_LIVE.
 import { IOS_LIVE, ANDROID_LIVE, APP_STORE, GOOGLE_PLAY } from '../config';
 import { t, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
+const live = IOS_LIVE || ANDROID_LIVE;
+const table = lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/';
 ---
-<div class="stores">
+<div class={'stores' + (live ? '' : ' waiting')}>
+  {!live && <a class="store wide" href={table}><small>{t(lang, 'Alle Finishes 2 bis 170', 'Every finish from 2 to 170')}</small>{t(lang, 'Zur Checkout-Tabelle', 'Open the checkout chart')}</a>}
   {IOS_LIVE
     ? <a class="store" href={APP_STORE}><small>{t(lang, 'Laden im', 'Download on the')}</small>App Store</a>
     : <span class="store soon"><small>{t(lang, 'Bald im', 'Coming soon to the')}</small>App Store</span>}
   {ANDROID_LIVE
     ? <a class="store ghost" href={GOOGLE_PLAY}><small>{t(lang, 'Jetzt bei', 'Get it on')}</small>Google Play</a>
-    : <span class="store ghost soon"><small>{t(lang, 'Bald bei', 'Coming soon to')}</small>Google Play</span>}
+    : <span class="store soon"><small>{t(lang, 'Bald bei', 'Coming soon to')}</small>Google Play</span>}
 </div>

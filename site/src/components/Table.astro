@@ -12,7 +12,7 @@ const rows = Object.keys(first).map(Number).sort((a, b) => b - a);
 const home = lang === 'de' ? '/' : '/en/';
 const self = lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/';
 const title = L('Checkout-Tabelle Darts: alle Finishes von 2 bis 170', 'Darts checkout chart: every finish from 2 to 170');
-const darts = (n: number) => L(n === 1 ? '1 Dart' : n + ' Darts', n === 1 ? '1 dart' : n + ' darts');
+const JUMP = [170, 130, 100, 80, 60, 40, 20];
 const jsonld = [{
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
   itemListElement: [
@@ -38,23 +38,29 @@ const jsonld = [{
     <p class="empty" id="leer" role="status" aria-live="polite" hidden data-bogeys={data.bogeys.join(',')}
       data-none={L('Kein Finish gefunden. Gesucht wird von 2 bis 170.', 'No finish found. Scores go from 2 to 170.')}
       data-bogey={L('# ist ein Bogey: dafür gibt es kein Finish mit drei Darts.', '# is a bogey: there is no three-dart finish for it.')}></p>
+    <p class="legend">{L('T = Triple, D = Doppel, Zahl allein = Single, Bull = 50, 25 = Single Bull.', 'T = treble, D = double, number alone = single, Bull = 50, 25 = outer bull.')}</p>
+    <nav class="jump noprint" id="jump" aria-label={L('Springen zu', 'Jump to')}>{JUMP.map((n) => <a href={'#r' + n}>{n}</a>)}</nav>
     <ul class="rows" id="rows">
       {rows.map((r) => (
-        <li class="row" data-n={r}>
+        <li class="row" data-n={r} id={'r' + r}>
           <span class="n">{r}</span>
-          <span class="rt"><Route codes={first[r]} /></span>
-          <span class="k">{darts(first[r].length)}</span>
+          <span class="rt"><Route codes={first[r]} value /></span>
         </li>
       ))}
     </ul>
     <div class="card bogey"><b>{L('Kein Finish mit drei Darts (Bogeys):', 'No three-dart finish (bogeys):')}</b> <span style="color:var(--t72)">{data.bogeys.join(', ')}.</span></div>
-    <p class="note noprint">{L('Felder: T = Triple, D = Doppel, Zahl allein = Single, Bull = 50, 25 = Single Bull. Die Wege sind dieselben wie in der App Dardo.', 'Fields: T = treble, D = double, number alone = single, Bull = 50, 25 = outer bull. The routes are the same as in the Dardo app.')}</p>
+    <div class="card app-card noprint">
+      <b>{L('Den Weg nicht nachschlagen, sondern können.', 'Don’t look the route up. Know it.')}</b>
+      <p>{L('Dardo erklärt dir das Warum und übt jeden Rest mit dir, bis er sitzt. Die Wege sind dieselben wie in dieser Tabelle.', 'Dardo explains the why and practises every score with you until it sticks. The routes are the same as in this chart.')}</p>
+      <a class="btn" href={home}>{L('Dardo ansehen', 'See Dardo')}</a>
+    </div>
   </div></div>
   <script>
     // Suche: zeigt nur Reste, die mit der eingetippten Zahl beginnen. Drucken: Druckvorlage des Browsers.
     const q = document.getElementById('q') as HTMLInputElement;
     const rows = Array.from(document.querySelectorAll<HTMLElement>('#rows .row'));
     const leer = document.getElementById('leer')!;
+    const jump = document.getElementById('jump')!;
     q.addEventListener('input', () => {
       const v = q.value.replace(/\D/g, '');
       let shown = 0;
@@ -62,6 +68,7 @@ const jsonld = [{
       const bogey = (leer.dataset.bogeys || '').split(',').includes(v);
       leer.textContent = (bogey ? leer.dataset.bogey! : leer.dataset.none!).replace('#', v);
       leer.hidden = shown > 0;
+      jump.hidden = !!v;
     });
     document.getElementById('drucken')!.addEventListener('click', () => window.print());
   </script>
