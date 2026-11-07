@@ -69,17 +69,22 @@ section.blk h2, .h2 { font-family: var(--display); font-size: clamp(24px, 4.2vw,
 .tile .ico svg { width: 16px; height: 16px; }
 /* Spielarten als Zeilen mit echtem Beispiel (Startseite). */
 .modes { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.tile.mode { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 4px 14px; padding: 14px 16px; }
+.tile.mode { display: grid; grid-template-columns: 30px 132px minmax(0, 1fr); align-items: center; gap: 4px 14px; padding: 14px 16px; }
 .tile.mode .ico { margin: 0; }
-.tile.mode .mt b { font-size: 17px; }
-.ex { position: relative; }
-.ex-v { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 15px; justify-content: flex-end; }
-.ex-v .dot { margin: 0; }
-.ex .num { font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; color: var(--text); }
-.ex .arr { color: var(--t60); }
-.ex .k { color: var(--t60); font-size: 14px; }
-.ex .bad { color: var(--danger); font-weight: 600; font-size: 14px; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tile.mode b { font-size: 17px; }
+.tile.mode .say { display: block; position: relative; color: var(--t72); font-size: 15px; line-height: 1.45; }
+/* Wissen: eigene, größere Kachel in Messing. */
+.tile.wissen { margin-top: 10px; padding: 18px 18px 16px; }
+.tile.wissen::after { width: 100%; background: radial-gradient(260px 140px at 0% 0%, color-mix(in srgb, var(--brass) 26%, transparent), transparent 70%); }
+.w-head { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 4px 14px; align-items: center; position: relative; }
+.w-head .ico { margin: 0; }
+.w-head b { font-size: 19px; }
+.w-head .pill { position: relative; justify-self: end; }
+.w-head .say { grid-column: 2 / 4; display: block; position: relative; color: var(--t72); font-size: 15px; line-height: 1.45; }
+.w-levels { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; position: relative; }
+.w-levels li { border-top: 1px solid color-mix(in srgb, var(--brass) 45%, transparent); padding-top: 10px; }
+.w-n { display: block; font-size: 26px; font-weight: 700; line-height: 1; color: var(--brass); font-variant-numeric: tabular-nums; }
+.w-l { display: block; margin-top: 6px; font-size: 14px; color: var(--t72); }
 .also { color: var(--t72); font-size: 15px; margin: 14px 0 0; }
 .also b { color: var(--text); }
 .teaser-btns { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -180,9 +185,9 @@ p, li { text-wrap: pretty; }
 @media (max-width: 760px) {
   .hero { grid-template-columns: minmax(0, 1fr); }
   .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tile.mode { grid-template-columns: 30px minmax(0, 1fr); }
-  .tile.mode .ex { grid-column: 2; }
-  .ex-v { justify-content: flex-start; }
+  .tile.mode { grid-template-columns: 30px minmax(0, 1fr); align-items: start; }
+  .tile.mode .ico { grid-row: span 2; }
+  .tile.mode .say { grid-column: 2; }
   .rows { grid-template-columns: minmax(0, 1fr); }
   .teaser { grid-template-columns: minmax(0, 1fr); }
   .shots { grid-auto-columns: 62%; }
