@@ -1,7 +1,6 @@
 <p class="lang"><a href="#de">Deutsch</a> · <a href="#en">English</a></p>
 
 <section id="de">
-<h2>Hilfe und Kontakt</h2>
 <p>Dardo ist eine Lern-App für Darts: Checkouts, Rechnen, Setup-Würfe, Wissen und Spiel gegen einen Gegner, für iPhone und Android.</p>
 <div class="card">
 <p><strong>Fragen, Fehler oder Wünsche?</strong><br>
@@ -20,7 +19,7 @@ Auf dem iPhone ja, wenn iCloud eingeschaltet ist. Bei Android, wenn die Android-
 Nein. Kein Konto, keine Werbung, kein Tracking. Details in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
 </section>
 
-<section id="en">
+<section id="en" lang="en">
 <h2>Help and contact</h2>
 <p>Dardo is a darts learning app: checkouts, scoring maths, setup shots, knowledge and matches against an opponent, for iPhone and Android.</p>
 <div class="card">

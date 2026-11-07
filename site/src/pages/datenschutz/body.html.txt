@@ -43,7 +43,7 @@
 <p>Stand: Oktober 2026</p>
 </section>
 
-<section id="en">
+<section id="en" lang="en">
 <h2>Privacy policy for the Dardo app</h2>
 <p><strong>In short:</strong> The Dardo app does not collect any personal data. There is no account, no advertising, no tracking and no analytics. The app sends no data to us.</p>
 

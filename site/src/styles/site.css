@@ -30,7 +30,7 @@ img { max-width: 100%; }
 .brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 700; font-size: 19px; }
 .brand img { width: 34px; height: 34px; border-radius: 8px; box-shadow: 0 0 18px rgba(201,163,91,.35); }
 .site-head nav { margin-left: auto; display: flex; gap: 16px; font-size: 15px; flex-wrap: wrap; justify-content: flex-end; }
-.site-head nav a { color: var(--t72); text-decoration: none; }
+.site-head nav a { color: var(--t72); text-decoration: none; display: inline-block; padding-block: 12px; }
 .site-head nav a[aria-current="page"] { color: var(--brass); }
 
 .hero { padding-block: 28px 20px; display: grid; gap: 28px; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: center; }
@@ -79,12 +79,13 @@ section.blk h2, .h2 { font-family: var(--display); font-size: clamp(24px, 4.2vw,
 .btn.ghost { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,.22); }
 
 .faq details { background: var(--card); border-radius: 14px; padding: 14px 16px; margin-bottom: 8px; box-shadow: inset 0 1px 0 rgba(255,255,255,.12); }
-.faq summary { cursor: pointer; font-weight: 600; }
+.faq summary { cursor: pointer; font-weight: 600; padding-block: 9px; }
 .faq details p { color: var(--t72); margin: 8px 0 0; font-size: 15.5px; }
 
 .foot { padding-block: 28px 40px; color: var(--t60); font-size: 14px; }
 .foot .inner { display: flex; gap: 14px 22px; flex-wrap: wrap; align-items: center; }
-.foot a { color: var(--t72); text-decoration: none; }
+.foot a { color: var(--t72); text-decoration: none; display: inline-block; padding-block: 10px; }
+p, li { text-wrap: pretty; }
 
 /* Feldmarken wie in der App (Änderung 164, 179, 305) */
 .fm { display: inline-block; padding: 1px 6px; border-radius: 6px; font-weight: 600; font-variant-numeric: tabular-nums; color: #fff; border: 1px solid var(--wire); background-image: linear-gradient(rgba(255,255,255,.07), rgba(255,255,255,0)); line-height: 1.35; white-space: nowrap; }
@@ -106,6 +107,7 @@ section.blk h2, .h2 { font-family: var(--display); font-size: clamp(24px, 4.2vw,
 .search:focus-within { outline: 3px solid var(--brass); outline-offset: 2px; }
 .rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; margin: 0; padding: 0; list-style: none; }
 .row { display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 12px; padding: 10px 12px; color: var(--text); box-shadow: inset 0 1px 0 rgba(255,255,255,.12); min-width: 0; }
+.row[hidden] { display: none; }
 .row .n { font-weight: 700; font-size: 19px; width: 3ch; font-variant-numeric: tabular-nums; }
 .row .rt { flex: 1; min-width: 0; display: flex; align-items: center; flex-wrap: wrap; gap: 2px 0; font-size: 15px; }
 .row .k { color: var(--t60); font-size: 13px; white-space: nowrap; }

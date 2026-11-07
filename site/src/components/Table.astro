@@ -35,6 +35,9 @@ const jsonld = [{
         <input id="q" type="search" inputmode="numeric" autocomplete="off" placeholder={L('Rest suchen, z. B. 121', 'Find a score, e.g. 121')} aria-label={L('Rest suchen', 'Find a score')}></label>
       <button class="btn ghost" type="button" id="drucken">{L('Als PDF drucken', 'Print as PDF')}</button>
     </div>
+    <p class="empty" id="leer" role="status" aria-live="polite" hidden data-bogeys={data.bogeys.join(',')}
+      data-none={L('Kein Finish gefunden. Gesucht wird von 2 bis 170.', 'No finish found. Scores go from 2 to 170.')}
+      data-bogey={L('# ist ein Bogey: dafür gibt es kein Finish mit drei Darts.', '# is a bogey: there is no three-dart finish for it.')}></p>
     <ul class="rows" id="rows">
       {rows.map((r) => (
         <li class="row" data-n={r}>
@@ -44,9 +47,6 @@ const jsonld = [{
         </li>
       ))}
     </ul>
-    <p class="empty" id="leer" hidden data-bogeys={data.bogeys.join(',')}
-      data-none={L('Kein Finish gefunden. Gesucht wird von 2 bis 170.', 'No finish found. Scores go from 2 to 170.')}
-      data-bogey={L('# ist ein Bogey: dafür gibt es kein Finish mit drei Darts.', '# is a bogey: there is no three-dart finish for it.')}></p>
     <div class="card bogey"><b>{L('Kein Finish mit drei Darts (Bogeys):', 'No three-dart finish (bogeys):')}</b> <span style="color:var(--t72)">{data.bogeys.join(', ')}.</span></div>
     <p class="note noprint">{L('Felder: T = Triple, D = Doppel, Zahl allein = Single, Bull = 50, 25 = Single Bull. Die Wege sind dieselben wie in der App Dardo.', 'Fields: T = treble, D = double, number alone = single, Bull = 50, 25 = outer bull. The routes are the same as in the Dardo app.')}</p>
   </div></div>
