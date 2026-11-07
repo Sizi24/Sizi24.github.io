@@ -17,6 +17,8 @@ Erstattungen laufen über den Store: beim iPhone über <a href="https://reportap
 Auf dem iPhone ja, wenn iCloud eingeschaltet ist. Bei Android, wenn die Android-Sicherung in deinem Google-Konto eingeschaltet ist.</p>
 <p><strong>Werden meine Daten gesammelt?</strong><br>
 Nein. Kein Konto, keine Werbung, kein Tracking. Details in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+<h3>Hinweis</h3>
+<p>Dardo ist ein unabhängiges Projekt und steht in keiner Verbindung zur PDC, DRA, WDF oder zu Turnierveranstaltern. Genannte Marken gehören ihren Inhabern. Regelangaben ohne Gewähr; maßgeblich sind die jeweils gültigen Regelwerke der Verbände.</p>
 </section>
 
 <section id="en" lang="en">
@@ -37,4 +39,6 @@ Refunds are handled by the store: on iPhone at <a href="https://reportaproblem.a
 On iPhone yes, if iCloud is turned on. On Android, if Android backup to your Google account is turned on.</p>
 <p><strong>Do you collect my data?</strong><br>
 No. No account, no ads, no tracking. See the <a href="/datenschutz/#en">privacy policy</a>.</p>
+<h3>Note</h3>
+<p>Dardo is an independent project and is not affiliated with the PDC, DRA, WDF or any tournament organiser. All trademarks belong to their owners. Rules information without guarantee; the current rulebooks of the governing bodies apply.</p>
 </section>
