@@ -28,6 +28,8 @@ const tableUrl = lang === 'de' ? PAIRS.table.de : PAIRS.table.en;
 const helpUrl = lang === 'de' ? '/hilfe/' : '/hilfe/#en';
 const ogImage = SITE + (lang === 'de' ? '/bilder/teilen-de.png' : '/bilder/teilen-en.png');
 const cur = (p: string) => (path === p ? 'page' : undefined);
+// Sprache wie in der App: Deutsch nur bei deutschem Browser, sonst Englisch. Nur deutsche Seiten leiten um.
+const autoEn = lang === 'de' && pair ? pair.en : '';
 ---
 <!doctype html>
 <html lang={lang}>
@@ -35,6 +37,24 @@ const cur = (p: string) => (path === p ? 'page' : undefined);
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="google-site-verification" content="xqjYmnjIgAbnpFwPlifyCOQIMAenbzP2rjhMhqL4Z38">
+  {autoEn && <script is:inline define:vars={{ autoEn }}>
+    (function () {
+      try {
+        var wahl = null;
+        try { wahl = localStorage.getItem('dardo-sprache'); } catch (e) {}
+        var deutsch = /^de\b/i.test(navigator.language || '');
+        var bot = /bot|crawl|spider|slurp|lighthouse|headless|preview/i.test(navigator.userAgent || '');
+        var intern = document.referrer && new URL(document.referrer).origin === location.origin;
+        if (wahl === 'de' || bot || intern || (deutsch && wahl !== 'en')) return;
+        if (autoEn.indexOf('#') < 0) { location.replace(autoEn + location.search + location.hash); return; }
+        if (location.hash) return;
+        document.addEventListener('DOMContentLoaded', function () {
+          var en = document.getElementById('en');
+          if (en) { history.replaceState(null, '', '#en'); en.scrollIntoView(); }
+        });
+      } catch (e) {}
+    })();
+  </script>}
   <SEO
     title={title}
     description={description}
@@ -68,7 +88,7 @@ const cur = (p: string) => (path === p ? 'page' : undefined);
       <nav aria-label={t(lang, 'Hauptmenü', 'Main menu')}>
         <a href={tableUrl} aria-current={cur(tableUrl)}>Checkouts</a>
         <a href={helpUrl} aria-current={cur('/hilfe/')}>{t(lang, 'Hilfe', 'Help')}</a>
-        <a href={other} hreflang={lang === 'de' ? 'en' : 'de'} lang={lang === 'de' ? 'en' : 'de'}>{lang === 'de' ? 'English' : 'Deutsch'}</a>
+        <a href={other} hreflang={lang === 'de' ? 'en' : 'de'} lang={lang === 'de' ? 'en' : 'de'} data-sprache={lang === 'de' ? 'en' : 'de'}>{lang === 'de' ? 'English' : 'Deutsch'}</a>
       </nav>
     </div></header>
     <main id="inhalt"><slot /></main>
@@ -82,5 +102,12 @@ const cur = (p: string) => (path === p ? 'page' : undefined);
     <a href={lang === 'de' ? '/impressum/' : '/impressum/#en'}>{t(lang, 'Impressum', 'Imprint')}</a>
     <span>{t(lang, 'Kein Konto, keine Werbung, kein Tracking.', 'No account, no ads, no tracking.')}</span>
   </div></footer>
+  <script is:inline>
+    // Wer selbst die Sprache wechselt, behält sie beim nächsten Besuch.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('[data-sprache]');
+      if (a) { try { localStorage.setItem('dardo-sprache', a.getAttribute('data-sprache')); } catch (x) {} }
+    });
+  </script>
 </body>
 </html>
