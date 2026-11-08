@@ -160,6 +160,11 @@ p, li { text-wrap: pretty; }
 .row.fav .n { color: var(--brass); }
 
 .note { color: var(--t60); font-size: 14px; margin-top: 14px; }
+/* Rückmeldung: Mail-Knöpfe als Kapseln mit Messing-Rand (Hilfe), Karte unter der Checkout-Tabelle. */
+.mail-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px !important; }
+.pill-btn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--brass); color: var(--text); text-decoration: none; font-weight: 600; }
+.pill-btn:hover { background: rgba(201,163,91,.12); }
+.route-mail { margin-top: 12px; }
 
 /* Text-Seiten (Hilfe, Datenschutz, Impressum) */
 .prose { padding-block: 10px 30px; }

@@ -3,8 +3,9 @@
 <section id="de">
 <p>Dardo ist eine Lern-App für Darts: Checkouts, Rechnen, Setup-Würfe, Wissen und Spiel gegen einen Gegner, für iPhone und Android.</p>
 <div class="card">
-<p><strong>Fragen, Fehler oder Wünsche?</strong><br>
-Schreib an <a href="mailto:support@dardoapp.com?subject=Dardo">support@dardoapp.com</a>. Wir antworten so schnell wie möglich, meist innerhalb von zwei Werktagen.</p>
+<p><strong>Ideen, Fehler oder Fragen?</strong><br>
+Schreib an <a href="mailto:support@dardoapp.com?subject=Dardo">support@dardoapp.com</a>. Ideen und Wünsche sind ausdrücklich willkommen. Wir lesen jede Nachricht und antworten meist innerhalb von zwei Werktagen.</p>
+<p class="mail-btns"><a class="pill-btn" href="mailto:support@dardoapp.com?subject=Dardo%3A%20Idee">Idee schicken</a> <a class="pill-btn" href="mailto:support@dardoapp.com?subject=Dardo%3A%20Fehler">Fehler melden</a></p>
 </div>
 <h3>Häufige Fragen</h3>
 <p><strong>Ich habe Dardo Pro gekauft, aber es ist nicht frei.</strong><br>
@@ -25,8 +26,9 @@ Nein. Kein Konto, keine Werbung, kein Tracking. Details in der <a href="/datensc
 <h2>Help and contact</h2>
 <p>Dardo is a darts learning app: checkouts, scoring maths, setup shots, knowledge and matches against an opponent, for iPhone and Android.</p>
 <div class="card">
-<p><strong>Questions, bugs or wishes?</strong><br>
-Email <a href="mailto:support@dardoapp.com?subject=Dardo">support@dardoapp.com</a>. We reply as soon as we can, usually within two working days.</p>
+<p><strong>Ideas, bugs or questions?</strong><br>
+Email <a href="mailto:support@dardoapp.com?subject=Dardo">support@dardoapp.com</a>. Ideas and wishes are very welcome. We read every message and usually reply within two working days.</p>
+<p class="mail-btns"><a class="pill-btn" href="mailto:support@dardoapp.com?subject=Dardo%3A%20idea">Send an idea</a> <a class="pill-btn" href="mailto:support@dardoapp.com?subject=Dardo%3A%20bug">Report a bug</a></p>
 </div>
 <h3>Frequently asked questions</h3>
 <p><strong>I bought Dardo Pro but it is still locked.</strong><br>

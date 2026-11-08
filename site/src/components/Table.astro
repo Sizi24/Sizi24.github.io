@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Route from './Route.astro';
 import PrintHead from './PrintHead.astro';
 import { t, type Lang } from '../i18n';
-import { SITE } from '../config';
+import { SITE, SUPPORT_MAIL } from '../config';
 import data from '../data/checkouts.json';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -19,6 +19,9 @@ const GROUPS = [170, 130, 100, 80, 60, 40, 20];
 // Je Abschnitt der erste vorhandene Rest, davor steht die Überschrift (nur im Druck sichtbar).
 const groupAt = new Map<number, string>();
 GROUPS.forEach((g, k) => { const low = (GROUPS[k + 1] ?? 1) + 1; const r = rows.find((x) => x <= g && x >= low); if (r) groupAt.set(r, g + ' ' + L('bis', 'to') + ' ' + low); });
+// Rückmeldung zu einem Weg (wie „Siehst du einen Weg anders?“ unten im Reiter Checkouts der App): Mail mit Betreff und Vorlage.
+const routeMail = 'mailto:' + SUPPORT_MAIL + '?subject=' + encodeURIComponent(L('Dardo: Checkout-Tabelle', 'Dardo: checkout chart'))
+  + '&body=' + encodeURIComponent(L('Finish:\r\nWeg auf der Website:\r\nMein Weg:\r\nWarum:\r\n', 'Finish:\r\nRoute on the website:\r\nMy route:\r\nWhy:\r\n'));
 const jsonld = [{
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
   itemListElement: [
@@ -56,6 +59,7 @@ const jsonld = [{
       </>))}
     </ul>
     <div class="card bogey"><b>{L('Kein Finish mit drei Darts (Bogeys):', 'No three-dart finish (bogeys):')}</b> <span style="color:var(--t72)">{data.bogeys.join(', ')}.</span></div>
+    <div class="card route-mail noprint"><p>{L('Siehst du einen Weg anders? Schreib uns an ', 'See a route differently? Email us at ')}<a href={routeMail}>{SUPPORT_MAIL}</a>{L('. Jede Nachricht wird gelesen.', '. We read every message.')}</p></div>
     <p class="print-foot print-only">{L('Nicht nachschlagen, sondern können: Die App Dardo übt jeden Rest mit dir. dardoapp.com', 'Don’t look it up, know it: the Dardo app practises every score with you. dardoapp.com')}</p>
     <div class="card app-card noprint">
       <b>{L('Deine eigene Liste zum Ausdrucken', 'Your own list to print')}</b>
