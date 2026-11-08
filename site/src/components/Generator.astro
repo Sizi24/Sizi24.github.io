@@ -45,7 +45,8 @@ const TXT = {
   pro: L('Profi-Weg', 'Pro route'),
   rule: L('Letzter Dart: Doppel oder Bull.', 'Last dart: a double or the bull.'),
   tapDart: L('Tippe einen Dart an, um ihn zu ändern.', 'Tap a dart to change it.'),
-  ok: L('Geht auf. Tippe auf Speichern.', 'Checks out. Tap Save.'),
+  ringT: L('Triple', 'Treble'), ringD: L('Doppel', 'Double'), ringS: 'Single',
+  remove: L('antippen zum Entfernen', 'tap to remove'),
   left: L('Rest', 'Left'),
   over: L('Nach diesem Dart ist die Aufnahme vorbei.', 'The visit is over after this dart.'),
   bust: L('Überworfen.', 'Bust.'),
@@ -109,20 +110,24 @@ const TXT = {
       <h2 id="wd-title">{L('Weg für', 'Route for')} <b id="wd-n"></b></h2>
       <button class="wd-x" type="button" id="wd-x" aria-label={L('Schließen', 'Close')}><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
     </div>
-    <h3 class="wd-h">{L('Gängige Wege', 'Common routes')}</h3>
+    <div class="wd-tabs" role="group" aria-label={L('Weg wählen', 'Choose route')}>
+      <button type="button" data-tab="picks" aria-pressed="true">{L('Gängige Wege', 'Common routes')}</button>
+      <button type="button" data-tab="pad" aria-pressed="false">{L('Selbst eintippen', 'Type your own')}</button>
+    </div>
     <div class="picks" id="wd-picks"></div>
-    <h3 class="wd-h">{L('Selbst eintippen', 'Type your own')}</h3>
+    <div id="wd-own" hidden>
     <p class="wd-msg" id="wd-msg" aria-live="polite"></p>
     <div class="slots" id="wd-slots"></div>
     <button class="btn wd-save" type="button" id="wd-save" hidden>{L('Speichern', 'Save')}</button>
     <div class="pad" id="wd-pad">
-      <div class="rings" role="radiogroup" aria-label={L('Ring', 'Ring')}>
-        <button type="button" data-ring="T" role="radio">{L('Triple', 'Treble')}</button>
-        <button type="button" data-ring="D" role="radio">{L('Doppel', 'Double')}</button>
-        <button type="button" data-ring="S" role="radio">Single</button>
+      <div class="rings" role="group" aria-label={L('Ring', 'Ring')}>
+        <button type="button" data-ring="T">{L('Triple', 'Treble')}</button>
+        <button type="button" data-ring="D">{L('Doppel', 'Double')}</button>
+        <button type="button" data-ring="S">Single</button>
       </div>
       <div class="keys" id="wd-keys"></div>
       <div class="keys bulls" id="wd-bulls"></div>
+    </div>
     </div>
     <button class="btn ghost wd-del" type="button" id="wd-del" hidden>{L('Eigenen Weg löschen', 'Delete own route')}</button>
   </dialog>
@@ -187,7 +192,7 @@ const TXT = {
       for (const part of s.split(',')) {
         const [k, v] = part.split(':');
         const n = Number(k), r = (v || '').toUpperCase().split('.').filter(Boolean);
-        if (valid(n, r) && sig(r) !== sig(first[n])) out[n] = r;
+        if (valid(n, r)) out[n] = r;
       }
       return out;
     }
@@ -222,6 +227,8 @@ const TXT = {
     // Weg in der Liste ohne eigenen Weg: Lieblings-Doppel, sonst Profi-Weg.
     const favRoute = (n: number, d: number) => (d ? favourite[String(d)]?.[String(n)] : undefined);
     const base = (n: number, d: number) => favRoute(n, d) || first[n];
+    // Eigener Weg gilt nur, wo er vom Weg in der Liste abweicht (z. B. Profi-Weg statt Doppel-Weg bleibt gespeichert).
+    const ownRoute = (n: number, d: number) => (mine[n] && sig(mine[n]) !== sig(base(n, d)) ? mine[n] : undefined);
 
     function render() {
       const s = read();
@@ -236,20 +243,23 @@ const TXT = {
           const top = Math.min(GROUPS[g], s.b), low = Math.max((GROUPS[g + 1] ?? 1) + 1, s.a);
           const h = el('li', 'grp', top + ' ' + T.to + ' ' + low); h.setAttribute('aria-hidden', 'true'); list.append(h);
         }
-        const fav = favRoute(r, s.d), my = mine[r];
+        const fav = favRoute(r, s.d), my = ownRoute(r, s.d);
         const li = el('li');
         const b = el('button', 'row' + (my ? ' mine' : fav ? ' fav' : '')) as HTMLButtonElement;
         b.type = 'button'; b.dataset.n = String(r);
-        b.append(el('span', 'n', String(r)), route(my || fav || first[r], s.w));
+        const shown = my || fav || first[r];
+        b.setAttribute('aria-label', r + ': ' + shown.map(label).join(', ') + '. ' + (my ? T.mine + '. ' : fav ? T.fav + '. ' : '') + T.edit);
+        b.append(el('span', 'n', String(r)), route(shown, s.w));
         if (my) { b.append(el('span', 'tag', T.mine)); ownCount++; }
         else if (fav) { b.append(el('span', 'tag', T.fav)); moved++; }
         const pen = el('span', 'ed'); pen.innerHTML = PEN; b.append(pen, el('span', 'sr', T.edit));
         li.append(b); list.append(li); n++;
       }
-      const total = Object.keys(mine).length;
+      // Alle eigenen Wege zählen, auch außerhalb des Bereichs, damit „Eigene Wege löschen“ zur Zahl passt.
+      const total = Object.keys(mine).filter((k) => ownRoute(Number(k), s.d)).length;
       const parts = [T.count.replace('#', String(n))];
       if (s.d) parts.push(T.countFav.replace('$', String(moved)));
-      if (ownCount) parts.push(ownCount === 1 ? T.own1 : T.ownN.replace('#', String(ownCount)));
+      if (total) parts.push(total === 1 ? T.own1 : T.ownN.replace('#', String(total)));
       count.textContent = parts.join(' · ');
       allDel.hidden = !total;
       const bg = data.bogeys.filter((x) => x >= s.a && x <= s.b);
@@ -266,7 +276,7 @@ const TXT = {
       if (s.d) p.set('doppel', String(s.d));
       if (s.a !== 2 || s.b !== 170) { p.set('von', String(s.a)); p.set('bis', String(s.b)); }
       if (!s.w) p.set('werte', '0');
-      if (total) p.set('wege', wegeText());
+      if (Object.keys(mine).length) p.set('wege', wegeText());
       history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p.toString().replace(/%3A/g, ':').replace(/%2C/g, ',') : ''));
     }
 
@@ -283,16 +293,17 @@ const TXT = {
     const ringBtns = [...wd.querySelectorAll<HTMLButtonElement>('[data-ring]')];
     let cur = 0, ring = 'T', darts: string[] = [], verdict: 'open' | 'good' | 'bad' = 'open', why = '';
 
-    function key(code: string, text: string) {
-      const b = el('button', 'key') as HTMLButtonElement; b.type = 'button';
+    function key(code: string, text: string, name = text) {
+      const b = el('button', 'key') as HTMLButtonElement; b.type = 'button'; b.setAttribute('aria-label', name);
       const f = field(code); b.append(el('span', 'fm ' + f.cls, text));
       b.addEventListener('click', () => add(code));
       return b;
     }
     function drawKeys() {
       keys.textContent = '';
-      for (let i = 1; i <= 20; i++) keys.append(key(ring + i, String(i)));
-      ringBtns.forEach((b) => { const on = b.dataset.ring === ring; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); });
+      const ringName = ({ T: T.ringT, D: T.ringD, S: T.ringS } as Record<string, string>)[ring];
+      for (let i = 1; i <= 20; i++) keys.append(key(ring + i, String(i), ringName + ' ' + i));
+      ringBtns.forEach((b) => { const on = b.dataset.ring === ring; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
     }
     bulls.append(key('25', '25'), key('BULL', 'Bull'));
     ringBtns.forEach((b) => b.addEventListener('click', () => { ring = b.dataset.ring!; drawKeys(); }));
@@ -310,6 +321,7 @@ const TXT = {
           const tone = checked && last && verdict === 'good' ? 'good' : ((rest < 2 && !checked) || (last && verdict === 'bad')) ? 'bad' : '';
           const b = el('button', 'dart') as HTMLButtonElement; b.type = 'button';
           const f = field(c); b.append(el('span', 'fm ' + f.cls, f.label));
+          b.setAttribute('aria-label', f.label + ', ' + T.remove);
           b.addEventListener('click', () => { darts = darts.slice(0, i); verdict = 'open'; why = ''; update(); });
           const r = el('span', 'left ' + tone);
           r.append(el('small', '', T.left), el('b', '', (tone === 'good' ? '✓ ' : tone === 'bad' ? '✕ ' : '') + rest));
@@ -321,8 +333,8 @@ const TXT = {
       }
     }
     function update() {
-      msg.className = 'wd-msg' + (verdict === 'bad' ? ' bad' : verdict === 'good' ? ' good' : '');
-      msg.textContent = verdict === 'bad' ? why + ' ' + T.tapDart : verdict === 'good' ? T.ok : T.rule;
+      msg.className = 'wd-msg' + (verdict === 'bad' ? ' bad' : '');
+      msg.textContent = verdict === 'bad' ? why + ' ' + T.tapDart : T.rule;
       save.hidden = verdict !== 'good';
       drawSlots();
     }
@@ -346,14 +358,14 @@ const TXT = {
       keep(); render(); wd.close();
     }
     function drawPicks() {
-      const d = read().d, now = mine[cur] || base(cur, d);
+      const d = read().d, now = ownRoute(cur, d) || base(cur, d);
       const seen = new Set<string>(), opts: { r: string[]; tag: string }[] = [];
       const push = (r: string[] | undefined, tag = '') => { if (r && !seen.has(sig(r))) { seen.add(sig(r)); opts.push({ r, tag }); } };
       push(first[cur], T.pro);
       push(favRoute(cur, d), T.fav);
       (alts[cur] || []).forEach((r) => push(r));
       DOUBLES.forEach((x) => push(favourite[String(x)]?.[String(cur)]));
-      if (mine[cur]) push(mine[cur], T.mine);
+      if (ownRoute(cur, d)) push(mine[cur], T.mine);
       picks.textContent = '';
       for (const o of opts) {
         const b = el('button', 'pick' + (sig(o.r) === sig(now) ? ' on' : '')) as HTMLButtonElement; b.type = 'button';
@@ -365,11 +377,18 @@ const TXT = {
       }
     }
     const DOUBLES = [20, 16, 18, 10, 12, 8];
+    const tabs = [...wd.querySelectorAll<HTMLButtonElement>('[data-tab]')];
+    const ownBox = document.getElementById('wd-own')!;
+    function tab(name: string) {
+      tabs.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tab === name)));
+      picks.hidden = name !== 'picks'; ownBox.hidden = name !== 'pad';
+    }
+    tabs.forEach((b) => b.addEventListener('click', () => tab(b.dataset.tab!)));
     function open(n: number) {
       cur = n; ring = 'T'; darts = []; verdict = 'open'; why = '';
       wdN.textContent = String(n);
-      del.hidden = !mine[n];
-      drawPicks(); drawKeys(); update();
+      del.hidden = !ownRoute(n, read().d);
+      drawPicks(); drawKeys(); update(); tab('picks');
       wd.showModal();
     }
     list.addEventListener('click', (e) => {
@@ -378,7 +397,12 @@ const TXT = {
     });
     save.addEventListener('click', () => choose(darts));
     document.getElementById('wd-x')!.addEventListener('click', () => wd.close());
-    wd.addEventListener('click', (e) => { if (e.target === wd) wd.close(); });
+    const outside = (d: HTMLDialogElement, e: MouseEvent) => {
+      if (e.target !== d) return false;
+      const r = d.getBoundingClientRect();
+      return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+    };
+    wd.addEventListener('click', (e) => { if (outside(wd, e)) wd.close(); });
     wd.addEventListener('close', () => { list.querySelector<HTMLButtonElement>(`button.row[data-n="${cur}"]`)?.focus(); });
 
     // ---- Rückfrage vor dem Löschen ----
@@ -386,11 +410,17 @@ const TXT = {
     let onYes = () => {};
     function confirmDelete(q: string, yes: () => void) { document.getElementById('ask-q')!.textContent = q; onYes = yes; ask.showModal(); }
     document.getElementById('ask-no')!.addEventListener('click', () => ask.close());
-    document.getElementById('ask-yes')!.addEventListener('click', () => { ask.close(); onYes(); });
-    ask.addEventListener('click', (e) => { if (e.target === ask) ask.close(); });
-    del.addEventListener('click', () => { wd.close(); confirmDelete(T.askOne, () => { delete mine[cur]; keep(); render(); }); });
+    let back: () => HTMLElement | null = () => null;
+    document.getElementById('ask-yes')!.addEventListener('click', () => { ask.close(); onYes(); (back() || document.getElementById('drucken'))?.focus(); });
+    ask.addEventListener('click', (e) => { if (outside(ask, e)) ask.close(); });
+    del.addEventListener('click', () => {
+      wd.close();
+      back = () => list.querySelector<HTMLButtonElement>(`button.row[data-n="${cur}"]`);
+      confirmDelete(T.askOne, () => { delete mine[cur]; keep(); render(); });
+    });
     allDel.addEventListener('click', () => {
-      const k = Object.keys(mine).length;
+      const k = Object.keys(mine).filter((x) => ownRoute(Number(x), read().d)).length;
+      back = () => null;
       confirmDelete(k === 1 ? T.askOne : T.askAll.replace('#', String(k)), () => { mine = {}; keep(); render(); });
     });
 
@@ -409,7 +439,6 @@ const TXT = {
     let stored = '';
     try { stored = localStorage.getItem(KEY) || ''; } catch { /* kein Speicher */ }
     mine = parseWege(q.get('wege') ?? stored);
-    if (q.has('wege')) keep();
 
     form.addEventListener('input', render);
     form.addEventListener('change', render);
