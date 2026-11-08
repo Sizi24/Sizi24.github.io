@@ -4,7 +4,7 @@
 <p>Dardo ist eine Lern-App für Darts: Checkouts, Rechnen, Setup-Würfe, Wissen und Spiel gegen einen Gegner, für iPhone und Android.</p>
 <div class="card">
 <p><strong>Fragen, Fehler oder Wünsche?</strong><br>
-Schreib an <a href="mailto:dardo.support@gmail.com?subject=Dardo">dardo.support@gmail.com</a>. Wir antworten so schnell wie möglich, meist innerhalb von zwei Werktagen.</p>
+Schreib an <a href="mailto:support@dardoapp.com?subject=Dardo">support@dardoapp.com</a>. Wir antworten so schnell wie möglich, meist innerhalb von zwei Werktagen.</p>
 </div>
 <h3>Häufige Fragen</h3>
 <p><strong>Ich habe Dardo Pro gekauft, aber es ist nicht frei.</strong><br>
@@ -26,7 +26,7 @@ Nein. Kein Konto, keine Werbung, kein Tracking. Details in der <a href="/datensc
 <p>Dardo is a darts learning app: checkouts, scoring maths, setup shots, knowledge and matches against an opponent, for iPhone and Android.</p>
 <div class="card">
 <p><strong>Questions, bugs or wishes?</strong><br>
-Email <a href="mailto:dardo.support@gmail.com?subject=Dardo">dardo.support@gmail.com</a>. We reply as soon as we can, usually within two working days.</p>
+Email <a href="mailto:support@dardoapp.com?subject=Dardo">support@dardoapp.com</a>. We reply as soon as we can, usually within two working days.</p>
 </div>
 <h3>Frequently asked questions</h3>
 <p><strong>I bought Dardo Pro but it is still locked.</strong><br>

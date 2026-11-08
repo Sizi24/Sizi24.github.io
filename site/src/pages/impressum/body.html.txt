@@ -1,9 +1,9 @@
 <h2>Angaben gemäß § 5 DDG</h2>
 <p>Salvatore Sicilia<br>Egenkamp 43<br>38448 Wolfsburg<br>Deutschland</p>
 <h3>Kontakt</h3>
-<p>E-Mail: <a href="mailto:dardo.support@gmail.com">dardo.support@gmail.com</a><br>Telefon: +49 1590 2093025</p>
+<p>E-Mail: <a href="mailto:support@dardoapp.com">support@dardoapp.com</a><br>Telefon: +49 1590 2093025</p>
 
 <div lang="en">
 <h2 id="en">Imprint (English)</h2>
-<p>Information pursuant to § 5 DDG (Germany):<br>Salvatore Sicilia, Egenkamp 43, 38448 Wolfsburg, Germany<br>Email: <a href="mailto:dardo.support@gmail.com">dardo.support@gmail.com</a><br>Phone: +49 1590 2093025</p>
+<p>Information pursuant to § 5 DDG (Germany):<br>Salvatore Sicilia, Egenkamp 43, 38448 Wolfsburg, Germany<br>Email: <a href="mailto:support@dardoapp.com">support@dardoapp.com</a><br>Phone: +49 1590 2093025</p>
 </div>

@@ -5,5 +5,5 @@ export const ANDROID_LIVE = false;
 export const APP_STORE = 'https://apps.apple.com/app/id6821426385';
 export const APP_STORE_ID = '6821426385';
 export const GOOGLE_PLAY = 'https://play.google.com/store/apps/details?id=de.salva.dartstrainer';
-export const SUPPORT_MAIL = 'dardo.support@gmail.com';
+export const SUPPORT_MAIL = 'support@dardoapp.com';
 export const SITE = 'https://dardoapp.com';
