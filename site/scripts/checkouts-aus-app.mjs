@@ -20,6 +20,12 @@ for (const line of block('raw').trim().split('\n')) {
   const r = Number(p[0]);
   if (first[r]) (alts[r] ??= []).push(p.slice(1)); else first[r] = p.slice(1);
 }
+// Gängige Alternativen (alternativesRaw): in der App die Tipps bei „Noch ein Weg“, auf der Website die Schnellwahl für eigene Wege.
+for (const line of block('alternativesRaw').trim().split('\n')) {
+  const p = line.trim().split(/\s+/);
+  if (!/^\d+$/.test(p[0])) continue;
+  (alts[Number(p[0])] ??= []).push(p.slice(1));
+}
 
 // Lieblings-Doppel (App-Änderung 333/336): Doppel -> Rest -> Weg, genau wie in der App.
 const favourite = {};
