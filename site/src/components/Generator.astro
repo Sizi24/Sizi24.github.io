@@ -1,6 +1,8 @@
 ---
-// Checkout-Liste zum Ausdrucken: Lieblings-Doppel und Bereich wählen, Liste wie die Checkout-Tabelle.
+// Checkout-Liste zum Ausdrucken: Lieblings-Doppel und Bereich wählen, jeden Weg antippen und austauschen.
 // Wege mit Lieblings-Doppel genau wie in der App (CheckoutTable.swift favouriteRaw, Änderung 333/336).
+// Eigene Wege wie „Mein Weg“ in der App (OwnRouteEditor, CheckoutEngine.ownRouteProblem, OwnRouteRest):
+// gleiche Tasten (Triple zuerst, Auswahl bleibt stehen), gleiche Prüfung, gleiche Sätze.
 import Base from '../layouts/Base.astro';
 import FieldMark from './FieldMark.astro';
 import PrintHead from './PrintHead.astro';
@@ -14,7 +16,7 @@ const self = lang === 'de' ? PAIRS.list.de : PAIRS.list.en;
 const table = lang === 'de' ? PAIRS.table.de : PAIRS.table.en;
 const DOUBLES = [20, 16, 18, 10, 12, 8];
 const RANGES = [[2, 170], [2, 40], [41, 100], [101, 170]];
-const title = L('Checkout-Liste erstellen: mit deinem Lieblings-Doppel', 'Make your own darts checkout list with your favourite double');
+const title = L('Checkout-Liste erstellen: mit deinen eigenen Wegen', 'Make your own darts checkout list with your own routes');
 const jsonld = [{
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
   itemListElement: [
@@ -22,25 +24,48 @@ const jsonld = [{
     { '@type': 'ListItem', position: 2, name: L('Checkout-Liste', 'Checkout list'), item: SITE + self },
   ],
 }];
+// Texte für das Skript im Browser.
+const TXT = {
+  fav: L('Dein Doppel', 'Your double'),
+  mine: L('Mein Weg', 'My route'),
+  subPro: L('Profi-Wege', 'Pro routes'),
+  subFav: L('Lieblings-Doppel D#', 'Favourite double D#'),
+  to: L('bis', 'to'),
+  count: L('# Finishes', '# finishes'),
+  countFav: L('$ auf dein Doppel umgestellt', '$ moved onto your double'),
+  own1: L('1 eigener Weg', '1 own route'),
+  ownN: L('# eigene Wege', '# own routes'),
+  bogeys: L('Kein Finish mit drei Darts (Bogeys):', 'No three-dart finish (bogeys):'),
+  copied: L('Link kopiert', 'Link copied'),
+  legendFav: L('Goldene Zahl: Weg auf dein Lieblings-Doppel.', 'Gold number: route onto your favourite double.'),
+  legendMine: L('Goldene Zahl: dein eigener Weg.', 'Gold number: your own route.'),
+  legendBoth: L('Goldene Zahl: dein eigener Weg oder dein Lieblings-Doppel.', 'Gold number: your own route or your favourite double.'),
+  edit: L('Weg ändern', 'Change route'),
+  dlgTitle: L('Weg für', 'Route for'),
+  pro: L('Profi-Weg', 'Pro route'),
+  rule: L('Letzter Dart: Doppel oder Bull.', 'Last dart: a double or the bull.'),
+  tapDart: L('Tippe einen Dart an, um ihn zu ändern.', 'Tap a dart to change it.'),
+  ok: L('Geht auf. Tippe auf Speichern.', 'Checks out. Tap Save.'),
+  left: L('Rest', 'Left'),
+  over: L('Nach diesem Dart ist die Aufnahme vorbei.', 'The visit is over after this dart.'),
+  bust: L('Überworfen.', 'Bust.'),
+  rest: L('Geht nicht auf: Es bleiben #.', 'Doesn’t check out: # left.'),
+  lastDouble: L('Der letzte Dart muss ein Doppel oder das Bull sein.', 'The last dart has to be a double or the bull.'),
+  samePro: L('Das ist schon der Profi-Weg.', 'That’s already the pro route.'),
+  sameFav: L('Das ist schon der Weg auf dein Doppel.', 'That’s already the route onto your double.'),
+  askAll: L('Alle # eigenen Wege löschen?', 'Delete all # own routes?'),
+  askOne: L('Deinen eigenen Weg löschen?', 'Delete your own route?'),
+};
 ---
 <Base lang={lang} page="list" jsonld={jsonld} title={title}
-  description={L('Deine eigene Checkout-Liste zum Ausdrucken: Lieblings-Doppel wählen, Bereich wählen, fertig. Profi-Wege wie in der App Dardo.', 'Your own checkout list to print: pick your favourite double and a range. Pro routes as in the Dardo app.')}>
-  <div class="gut"><div class="inner" style="padding-block:18px 30px" id="gen"
-    data-lang={lang}
-    data-fav={L('Dein Doppel', 'Your double')}
-    data-sub-pro={L('Profi-Wege', 'Pro routes')}
-    data-sub-fav={L('Lieblings-Doppel D#', 'Favourite double D#')}
-    data-to={L('bis', 'to')}
-    data-count={L('# Finishes', '# finishes')}
-    data-count-fav={L('# Finishes, davon $ auf dein Doppel umgestellt', '# finishes, $ of them moved onto your double')}
-    data-bogeys={L('Kein Finish mit drei Darts (Bogeys):', 'No three-dart finish (bogeys):')}
-    data-copied={L('Link kopiert', 'Link copied')}
-    data-legend-fav={L('Goldene Zahl: Weg auf dein Lieblings-Doppel.', 'Gold number: route onto your favourite double.')}>
+  description={L('Deine eigene Checkout-Liste zum Ausdrucken: Lieblings-Doppel wählen, jeden Weg antippen und austauschen, als A4-PDF drucken. Profi-Wege wie in der App Dardo.', 'Your own checkout list to print: pick your favourite double, tap any route to swap it, print it on one A4 page. Pro routes as in the Dardo app.')}>
+  <div class="gut"><div class="inner" style="padding-block:18px 30px" id="gen" data-lang={lang}>
+    <script type="application/json" id="gen-txt" set:html={JSON.stringify(TXT)} />
     <nav class="crumb" aria-label={L('Brotkrumen', 'Breadcrumb')}><a href={home}>Dardo</a> › {L('Checkout-Liste', 'Checkout list')}</nav>
     <PrintHead lang={lang} title={L('Meine Checkout-Liste', 'My checkout list')} sub={L('Profi-Wege', 'Pro routes')} />
     <div class="page-head">
       <h1>{L('Deine eigene Checkout-Liste', 'Your own checkout list')}</h1>
-      <p>{L('Wähle dein Lieblings-Doppel und den Bereich, dann drucken.', 'Pick your favourite double and a range, then print.')}</p>
+      <p>{L('Wähle dein Lieblings-Doppel und den Bereich. Jeden Weg kannst du antippen und austauschen. Dann drucken.', 'Pick your favourite double and a range. Tap any route to swap it. Then print.')}</p>
     </div>
     <form class="card gen-form" id="form" onsubmit="return false">
       <fieldset>
@@ -68,19 +93,55 @@ const jsonld = [{
       <p class="count" id="count" role="status" aria-live="polite"></p>
       <button class="btn" type="button" id="drucken">{L('Als PDF drucken', 'Print as PDF')}</button>
       <button class="btn ghost" type="button" id="teilen">{L('Link kopieren', 'Copy link')}</button>
+      <button class="btn ghost" type="button" id="alle-weg" hidden>{L('Eigene Wege löschen', 'Delete own routes')}</button>
     </div>
+    <p class="legend noprint">{L('Tippe ein Finish an, um deinen eigenen Weg zu wählen.', 'Tap a finish to choose your own route.')}</p>
     <ul class="rows" id="rows"></ul>
     <div class="card bogey" id="bogey" hidden></div>
     <p class="print-foot print-only">{L('Erstellt auf dardoapp.com. Die App Dardo übt jeden Rest mit dir.', 'Made at dardoapp.com. The Dardo app practises every score with you.')}</p>
     <noscript><p class="note">{L('Ohne JavaScript geht der Generator nicht. Die ganze Tabelle findest du hier:', 'The generator needs JavaScript. The full chart is here:')} <a href={table}>{L('Checkout-Tabelle', 'Checkout chart')}</a></p></noscript>
     <p class="note noprint">{L('Alle Wege mit Erklärung:', 'All routes explained:')} <a href={table}>{L('Checkout-Tabelle 2 bis 170', 'Checkout chart 2 to 170')}</a></p>
   </div></div>
+
+  <!-- Fenster „Weg für …“: gängige Wege mit einem Tipp, darunter selbst eintippen wie „Mein Weg“ in der App. -->
+  <dialog class="wd" id="wd" aria-labelledby="wd-title">
+    <div class="wd-head">
+      <h2 id="wd-title">{L('Weg für', 'Route for')} <b id="wd-n"></b></h2>
+      <button class="wd-x" type="button" id="wd-x" aria-label={L('Schließen', 'Close')}><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </div>
+    <h3 class="wd-h">{L('Gängige Wege', 'Common routes')}</h3>
+    <div class="picks" id="wd-picks"></div>
+    <h3 class="wd-h">{L('Selbst eintippen', 'Type your own')}</h3>
+    <p class="wd-msg" id="wd-msg" aria-live="polite"></p>
+    <div class="slots" id="wd-slots"></div>
+    <button class="btn wd-save" type="button" id="wd-save" hidden>{L('Speichern', 'Save')}</button>
+    <div class="pad" id="wd-pad">
+      <div class="rings" role="radiogroup" aria-label={L('Ring', 'Ring')}>
+        <button type="button" data-ring="T" role="radio">{L('Triple', 'Treble')}</button>
+        <button type="button" data-ring="D" role="radio">{L('Doppel', 'Double')}</button>
+        <button type="button" data-ring="S" role="radio">Single</button>
+      </div>
+      <div class="keys" id="wd-keys"></div>
+      <div class="keys bulls" id="wd-bulls"></div>
+    </div>
+    <button class="btn ghost wd-del" type="button" id="wd-del" hidden>{L('Eigenen Weg löschen', 'Delete own route')}</button>
+  </dialog>
+  <!-- Rückfrage vor dem Löschen, als eigenes Fenster wie in der App. -->
+  <dialog class="wd ask" id="ask" aria-labelledby="ask-q">
+    <p id="ask-q"></p>
+    <div class="ask-btns">
+      <button class="btn ghost" type="button" id="ask-no">{L('Abbrechen', 'Cancel')}</button>
+      <button class="btn danger" type="button" id="ask-yes">{L('Löschen', 'Delete')}</button>
+    </div>
+  </dialog>
+
   <script>
     import data from '../data/checkouts.json';
     import { field } from '../lib/field';
     const root = document.getElementById('gen')!;
-    const S = root.dataset as Record<string, string>;
+    const T = JSON.parse(document.getElementById('gen-txt')!.textContent || '{}') as Record<string, string>;
     const first = data.first as Record<string, string[]>;
+    const alts = data.alts as Record<string, string[][]>;
     const favourite = data.favourite as Record<string, Record<string, string[]>>;
     const GROUPS = [170, 130, 100, 80, 60, 40, 20];
     const form = document.getElementById('form') as HTMLFormElement;
@@ -91,22 +152,62 @@ const jsonld = [{
     const list = document.getElementById('rows')!;
     const bogey = document.getElementById('bogey')!;
     const count = document.getElementById('count')!;
+    const allDel = document.getElementById('alle-weg') as HTMLButtonElement;
     const sub = document.getElementById('ph-sub');
     const legend = document.querySelector('.ph-legend');
     const baseLegend = legend?.textContent || '';
+    void root;
 
+    // ---- Darts: Kurzschreibweise wie in der App ("T20", "D16", "S5", "25", "BULL") ----
+    const CODE = /^(?:([SDT])([1-9]|1\d|20)|25|BULL)$/;
+    const value = (c: string) => c === 'BULL' ? 50 : c === '25' ? 25 : Number(c.slice(1)) * ({ S: 1, D: 2, T: 3 } as Record<string, number>)[c[0]];
+    const isDouble = (c: string) => c === 'BULL' || c[0] === 'D';
+    const label = (c: string) => field(c).label;
+    // Wie CheckoutEngine.signature: Reihenfolge der Darts vor dem letzten egal.
+    const sig = (r: string[]) => r.length ? r.slice(0, -1).map(label).sort().join(',') + '|' + label(r[r.length - 1]) : '';
+    const sum = (r: string[]) => r.reduce((a, c) => a + value(c), 0);
+
+    // Prüfung wie CheckoutEngine.ownRouteProblem (ohne den Vergleich mit dem Weg in der Liste).
+    function problem(r: string[], n: number): string | null {
+      if (!r.length) return T.rule;
+      if (r.length > 3) return T.over;
+      let rest = n;
+      for (let i = 0; i < r.length; i++) { rest -= value(r[i]); if (rest <= 1 && i < r.length - 1) return T.over; }
+      if (sum(r) !== n) { const left = n - sum(r); return left < 2 ? T.bust : T.rest.replace('#', String(left)); }
+      if (!isDouble(r[r.length - 1])) return T.lastDouble;
+      return null;
+    }
+
+    // ---- Eigene Wege: Rest -> Darts. In der Adresse (zum Teilen) und auf diesem Gerät. ----
+    const KEY = 'dardo-eigene-wege';
+    let mine: Record<string, string[]> = {};
+    const valid = (n: number, r: string[]) => !!first[n] && r.length > 0 && r.every((c) => CODE.test(c)) && problem(r, n) === null;
+    function parseWege(s: string) {
+      const out: Record<string, string[]> = {};
+      for (const part of s.split(',')) {
+        const [k, v] = part.split(':');
+        const n = Number(k), r = (v || '').toUpperCase().split('.').filter(Boolean);
+        if (valid(n, r) && sig(r) !== sig(first[n])) out[n] = r;
+      }
+      return out;
+    }
+    const wegeText = () => Object.keys(mine).map(Number).sort((a, b) => b - a).map((n) => n + ':' + mine[n].join('.')).join(',');
+    function keep() { try { localStorage.setItem(KEY, wegeText()); } catch { /* ohne Speicher bleibt es in der Adresse */ } }
+
+    // ---- Liste ----
     const el = (tag: string, cls?: string, text?: string) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; };
-    function route(codes: string[], value: boolean) {
+    function route(codes: string[], showValue: boolean) {
       const rt = el('span', 'rt');
       codes.forEach((c, i) => {
         if (i > 0) { const d = el('span', 'dot', '·'); d.setAttribute('aria-hidden', 'true'); rt.append(d); }
         const f = field(c), dv = el('span', 'dv');
         dv.append(el('span', 'fm ' + f.cls, f.label));
-        if (value && f.v !== null) dv.append(el('span', 'val', '(' + f.v + ')'));
+        if (showValue && f.v !== null) dv.append(el('span', 'val', '(' + f.v + ')'));
         rt.append(dv);
       });
       return rt;
     }
+    const PEN = '<svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M10.6 2.6l2.8 2.8-7.7 7.7-3.3.5.5-3.3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
     const clamp = (n: number) => Math.min(170, Math.max(2, Math.round(n) || 2));
 
     function read() {
@@ -118,44 +219,182 @@ const jsonld = [{
       else [a, b] = r.split('-').map(Number);
       return { d, r, a, b, w: werte.checked };
     }
+    // Weg in der Liste ohne eigenen Weg: Lieblings-Doppel, sonst Profi-Weg.
+    const favRoute = (n: number, d: number) => (d ? favourite[String(d)]?.[String(n)] : undefined);
+    const base = (n: number, d: number) => favRoute(n, d) || first[n];
 
     function render() {
       const s = read();
       own.hidden = s.r !== 'eigen';
-      const fav = s.d ? favourite[String(s.d)] || {} : {};
       list.textContent = '';
-      let n = 0, moved = 0, group = -1;
+      let n = 0, moved = 0, ownCount = 0, group = -1;
       for (let r = s.b; r >= s.a; r--) {
         if (!first[r]) continue;
         const g = GROUPS.findIndex((top, k) => r <= top && r > (GROUPS[k + 1] ?? 1));
         if (g !== group) {
           group = g;
           const top = Math.min(GROUPS[g], s.b), low = Math.max((GROUPS[g + 1] ?? 1) + 1, s.a);
-          const h = el('li', 'grp', top + ' ' + S.to + ' ' + low); h.setAttribute('aria-hidden', 'true'); list.append(h);
+          const h = el('li', 'grp', top + ' ' + T.to + ' ' + low); h.setAttribute('aria-hidden', 'true'); list.append(h);
         }
-        const mine = fav[String(r)];
-        const li = el('li', 'row' + (mine ? ' fav' : ''));
-        li.append(el('span', 'n', String(r)), route(mine || first[r], s.w));
-        if (mine) { li.append(el('span', 'tag', S.fav)); moved++; }
-        list.append(li); n++;
+        const fav = favRoute(r, s.d), my = mine[r];
+        const li = el('li');
+        const b = el('button', 'row' + (my ? ' mine' : fav ? ' fav' : '')) as HTMLButtonElement;
+        b.type = 'button'; b.dataset.n = String(r);
+        b.append(el('span', 'n', String(r)), route(my || fav || first[r], s.w));
+        if (my) { b.append(el('span', 'tag', T.mine)); ownCount++; }
+        else if (fav) { b.append(el('span', 'tag', T.fav)); moved++; }
+        const pen = el('span', 'ed'); pen.innerHTML = PEN; b.append(pen, el('span', 'sr', T.edit));
+        li.append(b); list.append(li); n++;
       }
-      count.textContent = (s.d ? S.countFav.replace('$', String(moved)) : S.count).replace('#', String(n));
+      const total = Object.keys(mine).length;
+      const parts = [T.count.replace('#', String(n))];
+      if (s.d) parts.push(T.countFav.replace('$', String(moved)));
+      if (ownCount) parts.push(ownCount === 1 ? T.own1 : T.ownN.replace('#', String(ownCount)));
+      count.textContent = parts.join(' · ');
+      allDel.hidden = !total;
       const bg = data.bogeys.filter((x) => x >= s.a && x <= s.b);
       bogey.hidden = !bg.length;
       bogey.textContent = '';
-      if (bg.length) { bogey.append(el('b', '', S.bogeys), ' ' + bg.join(', ') + '.'); }
-      const range = s.a === 2 && s.b === 170 ? '2 ' + S.to + ' 170' : s.b + ' ' + S.to + ' ' + s.a;
-      if (sub) sub.textContent = (s.d ? S.subFav.replace('#', String(s.d)) : S.subPro) + ' · ' + range;
-      if (legend) legend.textContent = baseLegend + (s.d ? ' ' + S.legendFav : '');
-      // Einstellungen in der Adresse, damit man die Liste teilen kann.
+      if (bg.length) { bogey.append(el('b', '', T.bogeys), ' ' + bg.join(', ') + '.'); }
+      const range = s.a === 2 && s.b === 170 ? '2 ' + T.to + ' 170' : s.b + ' ' + T.to + ' ' + s.a;
+      const head = [s.d ? T.subFav.replace('#', String(s.d)) : T.subPro];
+      if (ownCount) head.push(ownCount === 1 ? T.own1 : T.ownN.replace('#', String(ownCount)));
+      if (sub) sub.textContent = head.join(' · ') + ' · ' + range;
+      if (legend) legend.textContent = baseLegend + (ownCount && moved ? ' ' + T.legendBoth : ownCount ? ' ' + T.legendMine : moved ? ' ' + T.legendFav : '');
+      // Einstellungen und eigene Wege in der Adresse, damit man die Liste teilen kann.
       const p = new URLSearchParams();
       if (s.d) p.set('doppel', String(s.d));
       if (s.a !== 2 || s.b !== 170) { p.set('von', String(s.a)); p.set('bis', String(s.b)); }
       if (!s.w) p.set('werte', '0');
-      history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p : ''));
+      if (total) p.set('wege', wegeText());
+      history.replaceState(null, '', location.pathname + (p.toString() ? '?' + p.toString().replace(/%3A/g, ':').replace(/%2C/g, ',') : ''));
     }
 
-    // Einstellungen aus der Adresse übernehmen.
+    // ---- Fenster „Weg für …“ ----
+    const wd = document.getElementById('wd') as HTMLDialogElement;
+    const wdN = document.getElementById('wd-n')!;
+    const picks = document.getElementById('wd-picks')!;
+    const msg = document.getElementById('wd-msg')!;
+    const slots = document.getElementById('wd-slots')!;
+    const save = document.getElementById('wd-save') as HTMLButtonElement;
+    const del = document.getElementById('wd-del') as HTMLButtonElement;
+    const keys = document.getElementById('wd-keys')!;
+    const bulls = document.getElementById('wd-bulls')!;
+    const ringBtns = [...wd.querySelectorAll<HTMLButtonElement>('[data-ring]')];
+    let cur = 0, ring = 'T', darts: string[] = [], verdict: 'open' | 'good' | 'bad' = 'open', why = '';
+
+    function key(code: string, text: string) {
+      const b = el('button', 'key') as HTMLButtonElement; b.type = 'button';
+      const f = field(code); b.append(el('span', 'fm ' + f.cls, text));
+      b.addEventListener('click', () => add(code));
+      return b;
+    }
+    function drawKeys() {
+      keys.textContent = '';
+      for (let i = 1; i <= 20; i++) keys.append(key(ring + i, String(i)));
+      ringBtns.forEach((b) => { const on = b.dataset.ring === ring; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); });
+    }
+    bulls.append(key('25', '25'), key('BULL', 'Bull'));
+    ringBtns.forEach((b) => b.addEventListener('click', () => { ring = b.dataset.ring!; drawKeys(); }));
+
+    // Rest unter jedem Dart wie OwnRouteRest.marks: rot bei überworfen, grün nur am letzten Dart nach gültiger Prüfung.
+    function drawSlots() {
+      slots.textContent = '';
+      let rest = cur;
+      for (let i = 0; i < 3; i++) {
+        const box = el('div', 'slot');
+        if (i < darts.length) {
+          const c = darts[i];
+          rest -= value(c);
+          const last = i === darts.length - 1, checked = rest === 0 && isDouble(c);
+          const tone = checked && last && verdict === 'good' ? 'good' : ((rest < 2 && !checked) || (last && verdict === 'bad')) ? 'bad' : '';
+          const b = el('button', 'dart') as HTMLButtonElement; b.type = 'button';
+          const f = field(c); b.append(el('span', 'fm ' + f.cls, f.label));
+          b.addEventListener('click', () => { darts = darts.slice(0, i); verdict = 'open'; why = ''; update(); });
+          const r = el('span', 'left ' + tone);
+          r.append(el('small', '', T.left), el('b', '', (tone === 'good' ? '✓ ' : tone === 'bad' ? '✕ ' : '') + rest));
+          box.append(b, r);
+        } else {
+          box.append(el('span', 'empty-dart'), el('span', 'left'));
+        }
+        slots.append(box);
+      }
+    }
+    function update() {
+      msg.className = 'wd-msg' + (verdict === 'bad' ? ' bad' : verdict === 'good' ? ' good' : '');
+      msg.textContent = verdict === 'bad' ? why + ' ' + T.tapDart : verdict === 'good' ? T.ok : T.rule;
+      save.hidden = verdict !== 'good';
+      drawSlots();
+    }
+    function add(code: string) {
+      if (verdict !== 'open' || darts.length >= 3) return;
+      darts.push(code);
+      const total = sum(darts);
+      if ((total === cur && isDouble(code)) || darts.length === 3 || total >= cur - 1) check();
+      update();
+    }
+    function check() {
+      const d = read().d;
+      const p = problem(darts, cur);
+      if (p) { verdict = 'bad'; why = p; return; }
+      if (sig(darts) === sig(base(cur, d))) { verdict = 'bad'; why = favRoute(cur, d) ? T.sameFav : T.samePro; return; }
+      verdict = 'good';
+    }
+    function choose(r: string[] | null) {
+      const d = read().d;
+      if (!r || sig(r) === sig(base(cur, d))) delete mine[cur]; else mine[cur] = r.slice();
+      keep(); render(); wd.close();
+    }
+    function drawPicks() {
+      const d = read().d, now = mine[cur] || base(cur, d);
+      const seen = new Set<string>(), opts: { r: string[]; tag: string }[] = [];
+      const push = (r: string[] | undefined, tag = '') => { if (r && !seen.has(sig(r))) { seen.add(sig(r)); opts.push({ r, tag }); } };
+      push(first[cur], T.pro);
+      push(favRoute(cur, d), T.fav);
+      (alts[cur] || []).forEach((r) => push(r));
+      DOUBLES.forEach((x) => push(favourite[String(x)]?.[String(cur)]));
+      if (mine[cur]) push(mine[cur], T.mine);
+      picks.textContent = '';
+      for (const o of opts) {
+        const b = el('button', 'pick' + (sig(o.r) === sig(now) ? ' on' : '')) as HTMLButtonElement; b.type = 'button';
+        b.setAttribute('aria-pressed', String(sig(o.r) === sig(now)));
+        b.append(route(o.r, werte.checked));
+        if (o.tag) b.append(el('span', 'tag', o.tag));
+        b.addEventListener('click', () => choose(o.r));
+        picks.append(b);
+      }
+    }
+    const DOUBLES = [20, 16, 18, 10, 12, 8];
+    function open(n: number) {
+      cur = n; ring = 'T'; darts = []; verdict = 'open'; why = '';
+      wdN.textContent = String(n);
+      del.hidden = !mine[n];
+      drawPicks(); drawKeys(); update();
+      wd.showModal();
+    }
+    list.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button.row');
+      if (b) open(Number(b.dataset.n));
+    });
+    save.addEventListener('click', () => choose(darts));
+    document.getElementById('wd-x')!.addEventListener('click', () => wd.close());
+    wd.addEventListener('click', (e) => { if (e.target === wd) wd.close(); });
+    wd.addEventListener('close', () => { list.querySelector<HTMLButtonElement>(`button.row[data-n="${cur}"]`)?.focus(); });
+
+    // ---- Rückfrage vor dem Löschen ----
+    const ask = document.getElementById('ask') as HTMLDialogElement;
+    let onYes = () => {};
+    function confirmDelete(q: string, yes: () => void) { document.getElementById('ask-q')!.textContent = q; onYes = yes; ask.showModal(); }
+    document.getElementById('ask-no')!.addEventListener('click', () => ask.close());
+    document.getElementById('ask-yes')!.addEventListener('click', () => { ask.close(); onYes(); });
+    ask.addEventListener('click', (e) => { if (e.target === ask) ask.close(); });
+    del.addEventListener('click', () => { wd.close(); confirmDelete(T.askOne, () => { delete mine[cur]; keep(); render(); }); });
+    allDel.addEventListener('click', () => {
+      const k = Object.keys(mine).length;
+      confirmDelete(k === 1 ? T.askOne : T.askAll.replace('#', String(k)), () => { mine = {}; keep(); render(); });
+    });
+
+    // ---- Einstellungen aus der Adresse übernehmen ----
     const q = new URLSearchParams(location.search);
     const qd = q.get('doppel');
     if (qd) { const input = form.querySelector<HTMLInputElement>(`input[name=d][value="${CSS.escape(qd)}"]`); if (input) input.checked = true; }
@@ -166,6 +405,11 @@ const jsonld = [{
       else { form.querySelector<HTMLInputElement>('input[name=r][value=eigen]')!.checked = true; von.value = String(a); bis.value = String(b); }
     }
     if (q.get('werte') === '0') werte.checked = false;
+    // Geteilter Link gewinnt, sonst die Wege von diesem Gerät.
+    let stored = '';
+    try { stored = localStorage.getItem(KEY) || ''; } catch { /* kein Speicher */ }
+    mine = parseWege(q.get('wege') ?? stored);
+    if (q.has('wege')) keep();
 
     form.addEventListener('input', render);
     form.addEventListener('change', render);
@@ -174,7 +418,7 @@ const jsonld = [{
     const teilen = document.getElementById('teilen')!;
     const teilenText = teilen.textContent;
     teilen.addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(location.href); teilen.textContent = S.copied; setTimeout(() => (teilen.textContent = teilenText), 1600); } catch { /* Kopieren nicht erlaubt: Adresse steht oben im Browser. */ }
+      try { await navigator.clipboard.writeText(location.href); teilen.textContent = T.copied; setTimeout(() => (teilen.textContent = teilenText), 1600); } catch { /* Kopieren nicht erlaubt: Adresse steht oben im Browser. */ }
     });
   </script>
 </Base>
