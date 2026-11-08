@@ -26,11 +26,15 @@ img { max-width: 100%; }
 .skip { position: absolute; left: -999px; top: 8px; background: var(--brass); color: var(--on-brass); padding: 8px 12px; border-radius: 8px; z-index: 9; }
 .skip:focus { left: 8px; }
 
-.site-head { padding-block: 14px; }
+.site-head { padding-block: 18px; }
 .site-head .inner { display: flex; align-items: center; gap: 10px; }
-.brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 700; font-size: 19px; }
-.brand img { width: 34px; height: 34px; border-radius: 8px; }
-.site-head nav { margin-left: auto; display: flex; gap: 16px; font-size: 15px; flex-wrap: wrap; justify-content: flex-end; }
+/* Zeichen und Name wie oben auf der Startseite der App: rundes Dardo-Zeichen mit Messing-Schein, 12 px Abstand. */
+.brand { display: flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: -.01em; line-height: 1; }
+.mark { position: relative; display: inline-flex; flex: none; }
+.mark::before { content: ''; position: absolute; inset: calc(var(--mark) * -.45); pointer-events: none;
+  background: radial-gradient(closest-side, rgba(236,210,154,.55) 47%, rgba(201,163,91,.26) 65%, rgba(201,163,91,.08) 84%, transparent); }
+.mark svg { position: relative; display: block; width: var(--mark); height: var(--mark); }
+.site-head nav { margin-left: auto; display: flex; gap: 20px; font-size: 16px; flex-wrap: wrap; justify-content: flex-end; }
 .site-head nav a { color: var(--t72); text-decoration: none; display: inline-block; padding-block: 12px; }
 .site-head nav a[aria-current="page"] { color: var(--brass); }
 
@@ -237,6 +241,9 @@ button.row:hover { border-color: rgba(201,163,91,.45); }
   .rows { grid-template-columns: minmax(0, 1fr); }
   .teaser { grid-template-columns: minmax(0, 1fr); }
   .shots { grid-auto-columns: 62%; }
+  .site-head { padding-block: 12px; }
+  .site-head .mark { --mark: 36px !important; }
+  .brand { gap: 10px; font-size: 21px; }
   .site-head nav { gap: 12px; font-size: 14px; }
 }
 @media (max-width: 520px) {

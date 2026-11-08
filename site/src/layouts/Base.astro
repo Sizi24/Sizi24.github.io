@@ -1,6 +1,7 @@
 ---
 import { SEO } from 'astro-seo';
 import '../styles/site.css';
+import Mark from '../components/Mark.astro';
 import { SITE, IOS_LIVE, APP_STORE_ID } from '../config';
 import { PAIRS, t, type Lang } from '../i18n';
 
@@ -84,7 +85,7 @@ const autoEn = lang === 'de' && pair ? pair.en : '';
   <a class="skip" href="#inhalt">{t(lang, 'Zum Inhalt', 'Skip to content')}</a>
   <div class="stage">
     <header class="site-head gut"><div class="inner">
-      <a class="brand" href={home}><img src="/bilder/logo-96.png" alt="" width="34" height="34">Dardo</a>
+      <a class="brand" href={home}><Mark size={44} />Dardo</a>
       <nav aria-label={t(lang, 'Hauptmenü', 'Main menu')}>
         <a href={tableUrl} aria-current={cur(tableUrl)}>Checkouts</a>
         <a href={helpUrl} aria-current={cur('/hilfe/')}>{t(lang, 'Hilfe', 'Help')}</a>

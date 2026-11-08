@@ -1,0 +1,43 @@
+---
+// Das Dardo-Zeichen wie in der App (DardoMark.swift): Board in echten Proportionen (WDF/PDC-Maße in mm)
+// auf dunkler Scheibe, Doppel- und Triple-Ring in Boardfarben, Drähte und Rand in Messing.
+// Als SVG gezeichnet, damit es in jeder Größe scharf ist. Den Messing-Schein dahinter macht site.css (.mark).
+interface Props { size?: number }
+const { size = 40 } = Astro.props;
+const s = 100, c = 50, k = s / 2.2 / 170;
+const pt = (mm: number) => mm * k;
+const f = (n: number) => +n.toFixed(2);
+const at = (r: number, deg: number) => `${f(c + r * Math.sin((deg * Math.PI) / 180))} ${f(c - r * Math.cos((deg * Math.PI) / 180))}`;
+const sector = (ri: number, ro: number, a: number, b: number) =>
+  `M${at(ro, a)}A${f(ro)} ${f(ro)} 0 0 1 ${at(ro, b)}L${at(ri, b)}A${f(ri)} ${f(ri)} 0 0 0 ${at(ri, a)}Z`;
+let singles = '', red = '', green = '', wires = '';
+for (let i = 1; i < 20; i += 2)
+  for (const [ri, ro] of [[pt(15.9), pt(99)], [pt(107), pt(162)]]) singles += sector(ri, ro, i * 18 - 9, i * 18 + 9);
+for (const [ri, ro] of [[162, 170], [99, 107]])
+  for (let i = 0; i < 20; i++) {
+    const p = sector(pt(ri), pt(ro), i * 18 - 9 + 0.6, i * 18 + 9 - 0.6);
+    if (i % 2 === 0) red += p; else green += p;
+  }
+for (let i = 0; i < 20; i++) wires += `M${at(pt(15.9), i * 18 + 9)}L${at(pt(170), i * 18 + 9)}`;
+const rim = 3.2;
+---
+<span class="mark" style={`--mark:${size}px`}>
+  <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="mark-rim" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ECD29A" /><stop offset=".5" stop-color="#C9A35B" /><stop offset="1" stop-color="#8A6A2C" />
+      </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="50" fill="#0F172C" />
+    <path d={singles} fill="#fff" fill-opacity=".07" />
+    <path d={red} fill="#C22D3A" />
+    <path d={green} fill="#178C51" />
+    <g fill="none" stroke="#C9A35B" stroke-opacity=".4" stroke-width=".9">
+      <path d={wires} />
+      {[162, 170, 99, 107].map((r) => <circle cx="50" cy="50" r={f(pt(r))} />)}
+    </g>
+    <circle cx="50" cy="50" r={f(pt(15.9))} fill="#178C51" />
+    <circle cx="50" cy="50" r={f(pt(6.35))} fill="#C22D3A" />
+    <circle cx="50" cy="50" r={50 - rim / 2} fill="none" stroke="url(#mark-rim)" stroke-width={rim} />
+  </svg>
+</span>
