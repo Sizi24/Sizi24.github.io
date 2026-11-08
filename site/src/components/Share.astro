@@ -35,7 +35,7 @@ const cfg = JSON.stringify({ i: IOS_LIVE, a: ANDROID_LIVE, s: APP_STORE, p: GOOG
       var android = /Android/.test(ua);
       if (iOS && c.i) location.replace(c.s);
       else if (android && c.a) location.replace(c.p);
-      else location.replace(/^en\b/i.test(navigator.language || '') ? '/en/' : '/');
+      else location.replace(/^de\b/i.test(navigator.language || '') ? '/' : '/en/');
     })();
   </script>
 </head>

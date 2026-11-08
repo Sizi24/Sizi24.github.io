@@ -5,7 +5,7 @@
 <p><strong>Kurz gesagt:</strong> Die App Dardo erhebt keine personenbezogenen Daten. Es gibt kein Konto, keine Werbung, kein Tracking und keine Analyse-Tools. Die App sendet keine Daten an uns.</p>
 
 <h3>Verantwortlich</h3>
-<p>Salvatore Sicilia<br>Egenkamp 43<br>38448 Wolfsburg<br>Deutschland<br><a href="mailto:dardo.support@gmail.com">dardo.support@gmail.com</a></p>
+<p>Salvatore Sicilia<br>Egenkamp 43<br>38448 Wolfsburg<br>Deutschland<br><a href="mailto:support@dardoapp.com">support@dardoapp.com</a></p>
 
 <h3>Daten auf deinem Gerät</h3>
 <p>Lernfortschritt, Einstellungen und dein Spielername (falls du einen eingibst) bleiben auf deinem Gerät; wir erhalten sie nicht. Wenn du die App löschst, werden diese Daten vom Gerät entfernt. Eine Ausnahme gibt es auf dem iPhone: Die Anzahl der bereits genutzten Proben bleibt im Schlüsselbund gespeichert. Das sind fünf Zahlen ohne Bezug zu deiner Person. So beginnen die Proben nach einer Neuinstallation nicht von vorn. Rechtsgrundlage ist § 25 Abs. 2 Nr. 2 TDDDG: Die Speicherung ist für die App, die du nutzt, unbedingt erforderlich.</p>
@@ -29,18 +29,18 @@
 <p>Ab und zu fragt dich die App mit dem Fenster von Apple bzw. Google, ob du sie bewerten möchtest. Wir erfahren nicht, ob es erschien oder was du gewählt hast. Eine Bewertung, die du abgibst, ist im Store öffentlich.</p>
 
 <h3>E-Mail an den Support</h3>
-<p>Wenn du uns eine E-Mail schreibst, verwenden wir deine Adresse und deine Nachricht nur, um dir zu antworten (Art. 6 Abs. 1 lit. b und f DSGVO). Das Postfach liegt bei Google (Gmail). Google kann die Daten auch in den USA verarbeiten, das stützt sich auf das EU-US Data Privacy Framework. Wir löschen deine E-Mails spätestens 12 Monate, nachdem deine Anfrage erledigt ist, außer ein Gesetz verlangt eine längere Aufbewahrung.</p>
+<p>Wenn du uns eine E-Mail schreibst, verwenden wir deine Adresse und deine Nachricht nur, um dir zu antworten (Art. 6 Abs. 1 lit. b und f DSGVO). Mails an support@dardoapp.com leitet Cloudflare (Cloudflare, Inc., USA) an unser Postfach bei Google (Gmail) weiter. Cloudflare speichert die Mails dabei nicht. Cloudflare und Google können die Daten auch in den USA verarbeiten, das stützt sich auf das EU-US Data Privacy Framework. Wir löschen deine E-Mails spätestens 12 Monate, nachdem deine Anfrage erledigt ist, außer ein Gesetz verlangt eine längere Aufbewahrung.</p>
 
 <h3>Diese Webseite</h3>
 <p>Diese Seite liegt bei GitHub Pages (GitHub, Inc., USA). Wenn du sie aufrufst, speichert GitHub deine IP-Adresse, um die Seite auszuliefern und vor Angriffen zu schützen (Art. 6 Abs. 1 lit. f DSGVO). Die Übermittlung in die USA stützt sich auf das EU-US Data Privacy Framework. Wir setzen keine Cookies, keine Schriften von fremden Servern und keine Analyse-Tools ein. Mehr dazu in der <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement">Datenschutzerklärung von GitHub</a>.</p>
 
 <h3>Deine Rechte</h3>
-<p>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Schreib dafür an <a href="mailto:dardo.support@gmail.com">dardo.support@gmail.com</a>. Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der Datenschutz-Aufsicht in Niedersachsen (LfD Niedersachsen).</p>
+<p>Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Schreib dafür an <a href="mailto:support@dardoapp.com">support@dardoapp.com</a>. Außerdem kannst du dich bei einer Datenschutz-Aufsichtsbehörde beschweren, zum Beispiel bei der Datenschutz-Aufsicht in Niedersachsen (LfD Niedersachsen).</p>
 
 <h3>Kinder</h3>
 <p>Dardo sammelt auch von Kindern keine Daten.</p>
 
-<p>Stand: Oktober 2026</p>
+<p>Stand: November 2026</p>
 </section>
 
 <section id="en" lang="en">
@@ -48,7 +48,7 @@
 <p><strong>In short:</strong> The Dardo app does not collect any personal data. There is no account, no advertising, no tracking and no analytics. The app sends no data to us.</p>
 
 <h3>Controller</h3>
-<p>Salvatore Sicilia<br>Egenkamp 43<br>38448 Wolfsburg<br>Germany<br><a href="mailto:dardo.support@gmail.com">dardo.support@gmail.com</a></p>
+<p>Salvatore Sicilia<br>Egenkamp 43<br>38448 Wolfsburg<br>Germany<br><a href="mailto:support@dardoapp.com">support@dardoapp.com</a></p>
 
 <h3>Data on your device</h3>
 <p>Your progress, settings and your player name (if you enter one) stay on your device; we never receive them. Deleting the app removes this data from the device. There is one exception on iPhone: the number of trial sessions already used remains stored in the keychain. These are five numbers with no link to you as a person, so the trial does not start over after a reinstall. The legal basis is Section 25(2) no. 2 TDDDG (Germany): this storage is strictly necessary for the app you use.</p>
@@ -72,16 +72,16 @@
 <p>Now and then the app uses Apple’s or Google’s window to ask whether you would like to rate it. We do not learn whether it appeared or what you chose. A rating you submit is public in the store.</p>
 
 <h3>Emailing support</h3>
-<p>If you email us, we use your address and message only to answer you (Art. 6(1)(b) and (f) GDPR). The mailbox is hosted by Google (Gmail). Google may also process the data in the USA, based on the EU-US Data Privacy Framework. We delete your emails no later than 12 months after your request is settled, unless a law requires us to keep them longer.</p>
+<p>If you email us, we use your address and message only to answer you (Art. 6(1)(b) and (f) GDPR). Cloudflare (Cloudflare, Inc., USA) forwards emails sent to support@dardoapp.com to our mailbox at Google (Gmail). Cloudflare does not store the emails. Cloudflare and Google may also process the data in the USA, based on the EU-US Data Privacy Framework. We delete your emails no later than 12 months after your request is settled, unless a law requires us to keep them longer.</p>
 
 <h3>This website</h3>
 <p>This site is hosted on GitHub Pages (GitHub, Inc., USA). When you open it, GitHub stores your IP address to deliver the page and protect it from attacks (Art. 6(1)(f) GDPR). The transfer to the USA is based on the EU-US Data Privacy Framework. We use no cookies, no fonts from other servers and no analytics. See <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub’s privacy statement</a>.</p>
 
 <h3>Your rights</h3>
-<p>You have the right to access, rectification, erasure, restriction of processing, data portability and to object. Email <a href="mailto:dardo.support@gmail.com">dardo.support@gmail.com</a>. You may also lodge a complaint with a data protection supervisory authority, for example the LfD Niedersachsen (Lower Saxony, Germany).</p>
+<p>You have the right to access, rectification, erasure, restriction of processing, data portability and to object. Email <a href="mailto:support@dardoapp.com">support@dardoapp.com</a>. You may also lodge a complaint with a data protection supervisory authority, for example the LfD Niedersachsen (Lower Saxony, Germany).</p>
 
 <h3>Children</h3>
 <p>Dardo does not collect data from children either.</p>
 
-<p>Last updated: October 2026</p>
+<p>Last updated: November 2026</p>
 </section>

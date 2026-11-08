@@ -3,6 +3,7 @@ export type Lang = 'de' | 'en';
 export const PAIRS: Record<string, { de: string; en: string }> = {
   home: { de: '/', en: '/en/' },
   table: { de: '/checkout-tabelle/', en: '/en/checkout-chart/' },
+  list: { de: '/checkout-liste/', en: '/en/checkout-list/' },
   help: { de: '/hilfe/', en: '/hilfe/#en' },
   privacy: { de: '/datenschutz/', en: '/datenschutz/#en' },
   imprint: { de: '/impressum/', en: '/impressum/#en' },
