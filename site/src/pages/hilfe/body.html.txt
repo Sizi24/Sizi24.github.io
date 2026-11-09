@@ -1,7 +1,7 @@
 <p class="lang"><a href="#de">Deutsch</a> · <a href="#en">English</a></p>
 
 <section id="de">
-<p>Dardo ist eine Lern-App für Darts: Checkouts, Rechnen, Setup-Würfe, Wissen und Spiel gegen einen Gegner, für iPhone und Android.</p>
+<p>Dardo ist eine Lern-App für Darts: Checkouts, Rechnen, gut stellen, Wissen und Spiel gegen einen Gegner, für iPhone und Android.</p>
 <div class="card">
 <p><strong>Ideen, Fehler oder Fragen?</strong><br>
 Schreib an <a href="mailto:support@dardoapp.com?subject=Dardo">support@dardoapp.com</a>. Ideen und Wünsche sind ausdrücklich willkommen. Wir lesen jede Nachricht und antworten meist innerhalb von zwei Werktagen.</p>
@@ -24,7 +24,7 @@ Nein. Kein Konto, keine Werbung, kein Tracking. Details in der <a href="/datensc
 
 <section id="en" lang="en">
 <h2>Help and contact</h2>
-<p>Dardo is a darts learning app: checkouts, scoring maths, setup shots, knowledge and matches against an opponent, for iPhone and Android.</p>
+<p>Dardo is a darts learning app: checkouts, scoring maths, setting up, knowledge and matches against an opponent, for iPhone and Android.</p>
 <div class="card">
 <p><strong>Ideas, bugs or questions?</strong><br>
 Email <a href="mailto:support@dardoapp.com?subject=Dardo">support@dardoapp.com</a>. Ideas and wishes are very welcome. We read every message and usually reply within two working days.</p>
