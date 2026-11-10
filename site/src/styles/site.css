@@ -318,7 +318,7 @@ button.row:hover { border-color: rgba(201,163,91,.45); }
   .rows > li { break-inside: avoid; display: block; }
   .row .tag, .gen-tools { display: none !important; }
   .bogey[hidden] { display: none !important; }
-  .fm { border: .4pt solid rgba(0,0,0,.35); background-image: none; padding: 0 1.2mm; line-height: 1.22; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .fm { border: .4pt solid rgba(0,0,0,.35); background-image: none; padding: 0 1.2mm; line-height: 1.1; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .val { color: var(--p-mute); margin-left: .6mm; }
   .bogey { background: none; box-shadow: none; color: var(--p-ink); padding: 2mm 0 0; margin: 2mm 0 0; border-top: .6pt solid var(--brass-dark); border-radius: 0; font-size: 7.5pt; }
   .bogey * { color: var(--p-ink) !important; }
