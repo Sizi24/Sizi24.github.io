@@ -12,7 +12,7 @@ const first = data.first as Record<string, string[]>;
 const rows = Object.keys(first).map(Number).sort((a, b) => b - a);
 const home = lang === 'de' ? '/' : '/en/';
 const self = lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/';
-const title = L('Checkout-Tabelle Darts: alle Finishes von 2 bis 170', 'Darts checkout chart: every finish from 2 to 170');
+const title = L('Darts Checkout-Tabelle: alle Checkout-Wege von 2 bis 170', 'Darts checkout chart: every checkout route from 2 to 170');
 const JUMP = [170, 130, 100, 80, 60, 40, 20];
 // Abschnitte der Druckvorlage: 170 bis 131, 130 bis 101, ...
 const GROUPS = [170, 130, 100, 80, 60, 40, 20];
@@ -31,13 +31,13 @@ const jsonld = [{
 }];
 ---
 <Base lang={lang} page="table" jsonld={jsonld} title={title}
-  description={L('Die komplette Darts-Checkout-Tabelle: der Profi-Weg für jeden Rest von 2 bis 170 mit Double Out, dazu alle Bogey-Zahlen. Zum Nachschlagen und Ausdrucken.', 'The complete darts checkout chart: the pro route for every score from 2 to 170 with double out, plus all bogey numbers. Look it up or print it.')}>
+  description={L('Alle Checkout-Wege im Darts: der Profi-Weg für jeden Rest von 2 bis 170 mit Double Out, dazu alle Bogey-Zahlen. Zum Nachschlagen, Lernen und Ausdrucken.', 'Every darts checkout route: the pro route for each score from 2 to 170 with double out, plus all bogey numbers. Look it up, learn it or print it.')}>
   <div class="gut"><div class="inner" style="padding-block:18px 30px">
     <nav class="crumb" aria-label={L('Brotkrumen', 'Breadcrumb')}><a href={home}>Dardo</a> › {L('Checkout-Tabelle', 'Checkout chart')}</nav>
     <PrintHead lang={lang} title={L('Checkout-Tabelle 2 bis 170', 'Checkout chart 2 to 170')} sub={L('Profi-Wege wie in der App Dardo', 'Pro routes as in the Dardo app')} />
     <div class="page-head">
       <h1>{L('Checkout-Tabelle: alle Finishes von 2 bis 170', 'Darts checkout chart: every finish from 2 to 170')}</h1>
-      <p>{L('So spielen Profis jeden Rest mit Double Out. Der letzte Dart muss ein Doppel oder das Bull treffen.', 'How pros play every score with double out. The last dart has to hit a double or the bull.')}</p>
+      <p>{L('So spielen Profis jeden Rest mit Double Out: alle Checkout-Wege auf einen Blick. Der letzte Dart muss ein Doppel oder das Bull treffen.', 'How pros play every score with double out: every checkout route at a glance. The last dart has to hit a double or the bull.')}</p>
     </div>
     <div class="tools">
       <label class="search" for="q"><span aria-hidden="true" style="color:var(--t60)">⌕</span>
@@ -67,7 +67,7 @@ const jsonld = [{
       <a class="btn ghost" href={lang === 'de' ? '/checkout-liste/' : '/en/checkout-list/'}>{L('Liste erstellen', 'Make a list')}</a>
     </div>
     <div class="card app-card noprint">
-      <b>{L('Den Weg nicht nachschlagen, sondern können.', 'Don’t look the route up. Know it.')}</b>
+      <b>{L('Checkout-Wege lernen statt nachschlagen.', 'Learn checkout routes instead of looking them up.')}</b>
       <p>{L('Dardo erklärt dir das Warum und übt jeden Rest mit dir, bis er sitzt. Die Wege sind dieselben wie in dieser Tabelle.', 'Dardo explains the why and practises every score with you until it sticks. The routes are the same as in this chart.')}</p>
       <a class="btn" href={home}>{L('Dardo ansehen', 'See Dardo')}</a>
     </div>

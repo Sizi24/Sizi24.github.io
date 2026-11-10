@@ -43,6 +43,8 @@ const img = (n: string) => ({
   srcset: `/bilder/${lang}-${n}-420.webp 420w, /bilder/${lang}-${n}-840.webp 840w`,
 });
 const faq = [
+  [L('Wie lerne ich Checkout-Wege?', 'How do I learn checkout routes?'),
+   L('Verstehen statt auswendig lernen: Dardo zeigt dir den Profi-Weg mit Erklärung, du rechnest ihn selbst und übst ihn in Stufen. Was du falsch hattest, kommt später noch einmal.', 'Understand them instead of memorising: Dardo shows you the pro route with an explanation, you work it out yourself and practise it in levels. What you got wrong comes back later.')],
   [L('Ersetzt Dardo das Training am Board?', 'Does Dardo replace practice at the board?'),
    L('Nein. Am Board trainierst du den Wurf, mit Dardo den Kopf: Rechnen, Wege und Entscheidungen.', 'No. The board trains your throw, Dardo trains your head: maths, routes and decisions.')],
   [L('Welche Regeln lernt man?', 'Which rules does it teach?'),
@@ -56,23 +58,26 @@ const jsonld = [
     '@context': 'https://schema.org', '@type': 'MobileApplication',
     name: 'Dardo: Darts Checkout Trainer', alternateName: 'Dardo',
     url: SITE + (lang === 'de' ? '/' : '/en/'),
-    description: L('Darts-Training für den Kopf: Checkouts, Rechnen und Spielentscheidungen üben.', 'Darts training for your head: practise checkouts, scoring maths and match decisions.'),
+    description: L('Darts-Training für den Kopf: Checkout-Wege lernen, Rechnen und Spielentscheidungen üben.', 'Darts training for your head: learn checkout routes, practise scoring maths and match decisions.'),
     operatingSystem: 'iOS, Android', applicationCategory: 'EducationalApplication',
     inLanguage: ['de', 'en'], image: SITE + '/icon-512.png',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
     ...(sameAs.length ? { sameAs } : {}),
   },
   { '@context': 'https://schema.org', '@type': 'WebSite', name: 'Dardo', url: SITE + '/', inLanguage: lang },
+  // Häufige Fragen auch maschinenlesbar, damit Suchmaschinen und KI-Suche die Antworten finden.
+  { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang,
+    mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
 ];
 ---
 <Base lang={lang} page="home" jsonld={jsonld}
-  title={L('Dardo: Darts Checkout Trainer für iPhone und Android', 'Dardo: Darts Checkout Trainer for iPhone and Android')}
-  description={L('Am Board trainierst du den Wurf, mit Dardo den Kopf. Checkouts von 2 bis 170, Rechnen und Spielentscheidungen üben. Gratis, ohne Konto, ohne Tracking.', 'The board trains your throw, Dardo trains your head. Practise checkouts from 2 to 170, scoring maths and match decisions. Free, no account, no tracking.')}>
+  title={L('Darts Checkout-Wege lernen | Dardo Checkout Trainer', 'Learn darts checkout routes | Dardo Checkout Trainer')}
+  description={L('Checkout-Wege lernen wie die Profis: jeder Rest von 2 bis 170, selbst gerechnet. Dazu Rechnen und Spielentscheidungen. Gratis, ohne Konto, ohne Tracking.', 'Learn darts checkout routes like the pros: every score from 2 to 170, worked out yourself. Plus scoring maths and match decisions. Free, no account, no tracking.')}>
   <div class="gut"><div class="inner hero">
     <div>
       <p class="eyebrow">Darts Checkout Trainer</p>
       <h1>{L('Am Board trainierst du den Wurf.', 'The board trains your throw.')} <em>{L('Mit Dardo den Kopf.', 'Dardo trains your head.')}</em></h1>
-      <p class="lead">{L('Checkouts, Rechnen und Spielentscheidungen üben. Vom ersten Pfeil bis zum Profi-Finish.', 'Practise checkouts, scoring maths and match decisions. From your first dart to a pro finish.')}</p>
+      <p class="lead">{L('Checkout-Wege lernen, Rechnen und Spielentscheidungen üben. Vom ersten Pfeil bis zum Profi-Finish.', 'Learn checkout routes, practise scoring maths and match decisions. From your first dart to a pro finish.')}</p>
       <StoreButtons lang={lang} />
       <p class="trust">{(IOS_LIVE || ANDROID_LIVE) ? L('Gratis laden · iPhone und Android · Kein Konto, kein Tracking', 'Free to download · iPhone and Android · No account, no tracking') : L('Bald erhältlich, gratis · iPhone und Android · Kein Konto, kein Tracking', 'Coming soon, free · iPhone and Android · No account, no tracking')}</p>
     </div>
@@ -115,7 +120,7 @@ const jsonld = [
   <section class="blk gut"><div class="inner">
     <div class="card teaser">
       <div><h2 class="h2" style="margin:0 0 6px">{L('Wie checkst du 121?', 'How do you check out 121?')}</h2>
-        <p style="margin:0">{L('Alle Finishes von 2 bis 170 mit dem Profi-Weg. Gratis, auch ohne App.', 'Every finish from 2 to 170 with the pro route. Free, no app needed.')}</p></div>
+        <p style="margin:0">{L('Alle Checkout-Wege von 2 bis 170, so wie Profis sie spielen. Gratis, auch ohne App.', 'Every checkout route from 2 to 170, the way pros play it. Free, no app needed.')}</p></div>
       <div class="teaser-btns">
         <a class="btn" href={lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/'}>{L('Zur Checkout-Tabelle', 'Open the checkout chart')}</a>
         <a class="btn ghost" href={lang === 'de' ? '/checkout-liste/' : '/en/checkout-list/'}>{L('Eigene Liste erstellen', 'Make your own list')}</a>
