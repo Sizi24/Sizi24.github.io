@@ -26,7 +26,7 @@ const modes: Mode[] = [
   { c: 'var(--blitz)', ico: 'blitz', name: L('Felder-Blitz', 'Segment blitz'),
     text: L('Du sagst blitzschnell, wie viele Punkte ein Feld zählt, und umgekehrt.', 'Say in a flash how many points a segment scores, and the other way round.') },
   { c: 'var(--punkte)', ico: 'punkte', name: L('Punkte zählen', 'Scoring'),
-    text: L('Drei Darts stecken im Board und du rechnest die Summe im Kopf.', 'Three darts are in the board and you add them up in your head.') },
+    text: L('Kopfrechnen fürs Darts: Drei Darts stecken im Board und du rechnest die Summe.', 'Mental maths for darts: three darts are in the board and you add them up.') },
   { c: 'var(--spiel)', ico: 'spiel', name: L('Spielcoach', 'Match coach'),
     text: L('Du spielst 501 gegen einen Gegner und der Coach zeigt dir den Profi-Weg.', 'Play 501 against an opponent while the coach shows you the pro route.') },
   { c: 'var(--caller)', ico: 'caller', name: 'Caller',
@@ -45,6 +45,8 @@ const img = (n: string) => ({
 const faq = [
   [L('Wie lerne ich Checkout-Wege?', 'How do I learn checkout routes?'),
    L('Verstehen statt auswendig lernen: Dardo zeigt dir den Profi-Weg mit Erklärung, du rechnest ihn selbst und übst ihn in Stufen. Was du falsch hattest, kommt später noch einmal.', 'Understand them instead of memorising: Dardo shows you the pro route with an explanation, you work it out yourself and practise it in levels. What you got wrong comes back later.')],
+  [L('Gibt es einen Checkout-Rechner?', 'Is there a checkout calculator?'),
+   L('Ja, gratis und ohne App: In der Checkout-Tabelle tippst du deinen Rest ein und siehst sofort den Profi-Weg. In Dardo lernst du, ihn selbst zu rechnen.', 'Yes, free and without the app: type your score into the checkout chart and you see the pro route at once. In Dardo you learn to work it out yourself.')],
   [L('Ersetzt Dardo das Training am Board?', 'Does Dardo replace practice at the board?'),
    L('Nein. Am Board trainierst du den Wurf, mit Dardo den Kopf: Rechnen, Wege und Entscheidungen.', 'No. The board trains your throw, Dardo trains your head: maths, routes and decisions.')],
   [L('Welche Regeln lernt man?', 'Which rules does it teach?'),
@@ -71,7 +73,7 @@ const jsonld = [
 ];
 ---
 <Base lang={lang} page="home" jsonld={jsonld}
-  title={L('Darts Checkout-Wege lernen | Dardo Checkout Trainer', 'Learn darts checkout routes | Dardo Checkout Trainer')}
+  title={L('Darts Checkout Trainer: Checkout-Wege lernen | Dardo', 'Darts Checkout Trainer: learn checkout routes | Dardo')}
   description={L('Checkout-Wege lernen wie die Profis: jeder Rest von 2 bis 170, selbst gerechnet. Dazu Rechnen und Spielentscheidungen. Gratis, ohne Konto, ohne Tracking.', 'Learn darts checkout routes like the pros: every score from 2 to 170, worked out yourself. Plus scoring maths and match decisions. Free, no account, no tracking.')}>
   <div class="gut"><div class="inner hero">
     <div>
@@ -86,15 +88,15 @@ const jsonld = [
   <hr class="wire">
   <section class="blk gut"><div class="inner">
     <h2>{L('Für dich, egal wie gut du spielst', 'For you, whatever your level')}</h2>
-    <p class="sub">{L('Dardo ist für die Zeit ohne Board: im Bus, auf dem Sofa, vor dem Spiel.', 'Dardo is for the time away from the board: on the bus, on the sofa, before a match.')}</p>
+    <p class="sub">{L('Dardo ist die Darts App für die Zeit ohne Board: im Bus, auf dem Sofa, vor dem Spiel.', 'Dardo is the darts app for the time away from the board: on the bus, on the sofa, before a match.')}</p>
     <div class="doors">
-      <div class="card"><h3>{L('Einsteiger', 'Beginners')}</h3><p>{L('Du lernst, ein Finish selbst zu rechnen und dir ein gutes Doppel zu stellen. Keine Tabelle zum Auswendiglernen.', 'Learn to work out a finish yourself and leave a good double. No chart to memorise.')}</p></div>
-      <div class="card"><h3>{L('Erfahrene', 'Experienced players')}</h3><p>{L('Du rechnest schneller, entscheidest sicherer und spielst die Wege der Profis.', 'Count faster, decide with confidence and play the routes the pros play.')}</p></div>
+      <div class="card"><h3>{L('Einsteiger', 'Beginners')}</h3><p>{L('Darts lernen heißt auch rechnen lernen: Du rechnest ein Finish selbst und stellst dir ein gutes Doppel. Keine Tabelle zum Auswendiglernen.', 'Learning darts means learning the maths too: work out a finish yourself and leave a good double. No chart to memorise.')}</p></div>
+      <div class="card"><h3>{L('Erfahrene', 'Experienced players')}</h3><p>{L('Du rechnest beim Darts schneller, entscheidest sicherer und spielst die Wege der Profis.', 'Do your darts maths faster, decide with confidence and play the routes the pros play.')}</p></div>
     </div>
   </div></section>
   <section class="blk gut"><div class="inner">
     <h2>{L('Was du in Dardo übst', 'What you practise in Dardo')}</h2>
-    <p class="sub">{L('Ein Training dauert etwa 3 Minuten. Dardo merkt sich deine Fehler und fragt sie später noch einmal ab.', 'A practice session takes about 3 minutes. Dardo remembers your mistakes and brings them back later.')}</p>
+    <p class="sub">{L('Ein Darts-Training in Dardo dauert etwa 3 Minuten. Dardo merkt sich deine Fehler und fragt sie später noch einmal ab.', 'A darts training session in Dardo takes about 3 minutes. Dardo remembers your mistakes and brings them back later.')}</p>
     <ul class="modes">
       {modes.map((m) => (
         <li class="tile mode" style={m.c ? `--c:${m.c}` : undefined}>

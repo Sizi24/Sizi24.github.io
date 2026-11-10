@@ -16,7 +16,7 @@ const self = lang === 'de' ? PAIRS.list.de : PAIRS.list.en;
 const table = lang === 'de' ? PAIRS.table.de : PAIRS.table.en;
 const DOUBLES = [20, 16, 18, 10, 12, 8];
 const RANGES = [[2, 170], [2, 40], [41, 100], [101, 170]];
-const title = L('Checkout-Liste erstellen: mit deinen eigenen Wegen', 'Make your own darts checkout list with your own routes');
+const title = L('Checkout-Liste erstellen: deine eigenen Checkout-Wege', 'Make your own darts checkout list with your checkout routes');
 const jsonld = [{
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
   itemListElement: [
@@ -59,14 +59,14 @@ const TXT = {
 };
 ---
 <Base lang={lang} page="list" jsonld={jsonld} title={title}
-  description={L('Deine eigene Checkout-Liste zum Ausdrucken: Lieblings-Doppel wählen, jeden Weg antippen und austauschen, als A4-PDF drucken. Profi-Wege wie in der App Dardo.', 'Your own checkout list to print: pick your favourite double, tap any route to swap it, print it on one A4 page. Pro routes as in the Dardo app.')}>
+  description={L('Deine eigene Checkout-Liste zum Ausdrucken: Lieblings-Doppel wählen, Checkout-Wege austauschen, als A4-PDF drucken und am Board üben.', 'Your own checkout list to print: pick your favourite double, swap any checkout route, print it on one A4 page and practise at the board.')}>
   <div class="gut"><div class="inner" style="padding-block:18px 30px" id="gen" data-lang={lang}>
     <script type="application/json" id="gen-txt" set:html={JSON.stringify(TXT)} />
     <nav class="crumb" aria-label={L('Brotkrumen', 'Breadcrumb')}><a href={home}>Dardo</a> › {L('Checkout-Liste', 'Checkout list')}</nav>
     <PrintHead lang={lang} title={L('Meine Checkout-Liste', 'My checkout list')} sub={L('Profi-Wege', 'Pro routes')} />
     <div class="page-head">
       <h1>{L('Deine eigene Checkout-Liste', 'Your own checkout list')}</h1>
-      <p>{L('Wähle dein Lieblings-Doppel und den Bereich. Jeden Weg kannst du antippen und austauschen. Dann drucken.', 'Pick your favourite double and a range. Tap any route to swap it. Then print.')}</p>
+      <p>{L('Wähle dein Lieblings-Doppel und den Bereich. Jeden Checkout-Weg kannst du antippen und austauschen. Dann drucken.', 'Pick your favourite double and a range. Tap any checkout route to swap it. Then print.')}</p>
     </div>
     <form class="card gen-form" id="form" onsubmit="return false">
       <fieldset>
