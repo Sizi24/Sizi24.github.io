@@ -97,7 +97,8 @@ section.blk h2, .h2 { font-family: var(--display); font-size: clamp(24px, 4.2vw,
 .faq summary { cursor: pointer; font-weight: 600; padding-block: 9px; }
 .faq details p { color: var(--t72); margin: 8px 0 0; font-size: 15.5px; }
 
-.foot { padding-block: 28px 40px; color: var(--t60); font-size: 14px; }
+/* Unten Platz für die Leiste von Safari auf dem iPhone, damit die letzte Zeile nicht verdeckt wird. */
+.foot { padding-block: 28px calc(56px + env(safe-area-inset-bottom, 0px)); color: var(--t60); font-size: 14px; }
 .foot .inner { display: flex; gap: 14px 22px; flex-wrap: wrap; align-items: center; }
 .foot a { color: var(--t72); text-decoration: none; display: inline-block; padding-block: 10px; }
 p, li { text-wrap: pretty; }
