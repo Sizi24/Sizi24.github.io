@@ -299,14 +299,17 @@ button.row:hover { border-color: rgba(201,163,91,.45); }
   .ph-qr .qr svg { display: block; width: 100%; height: 100%; }
   .ph-legend { margin: 1.6mm 0 0; font-size: 7.5pt; color: var(--p-mute); }
   /* Drei Spalten als Grid, nicht mit columns: Safari und iPhone drucken columns nur einspaltig (3 Seiten). --prow setzt print-rows.ts. */
-  .rows { display: grid !important; grid-auto-flow: column; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(var(--prow, 60), auto); column-gap: 6mm; row-gap: 0; align-content: start;
+  .rows { display: grid !important; grid-auto-flow: column; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(var(--prow, 60), 3.65mm); column-gap: 6mm; row-gap: 0; align-content: start;
     background-image: linear-gradient(var(--p-line), var(--p-line)), linear-gradient(var(--p-line), var(--p-line)); background-repeat: no-repeat; background-size: .4pt 100%, .4pt 100%;
     background-position: calc((100% - 12mm) / 3 + 3mm) 0, calc((100% - 12mm) * 2 / 3 + 9mm) 0; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .grp { display: block; break-after: avoid; break-inside: avoid; font-size: 7.5pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--brass-dark); border-bottom: .6pt solid var(--brass-dark); padding: 1mm 0 .4mm; margin: 0; align-self: end; }
   .grp:first-child { margin-top: 0; }
+  /* Feste Zeilenhöhe: gleiche Abstände in allen Spalten, passt auch bei größeren Druckrändern (iPhone) auf eine Seite. */
+  .rows > .grp, .rows .row { height: 3.65mm; box-sizing: border-box; overflow: hidden; }
+  .rows > .grp { padding: 0; line-height: 3.3mm; }
   .row, .row[hidden] { display: grid !important; grid-template-columns: 7mm 1fr; align-items: center; gap: 0; background: none; box-shadow: none; border-radius: 0; padding: .04mm 0; border-bottom: .3pt solid var(--p-line); color: var(--p-ink); break-inside: avoid; }
   .row .n { width: auto; font-size: 8.5pt; color: var(--p-ink); }
-  .row .rt { font-size: 7.4pt; grid-template-columns: 13.6mm 2.6mm 13.6mm 2.6mm 13.6mm; }
+  .row .rt { font-size: 7.1pt; grid-template-columns: 13.6mm 2.6mm 13.6mm 2.6mm 13.6mm; }
   .row .dot { color: var(--p-mute); }
   .row.fav .n { color: var(--brass-dark); }
   .row.mine .n { color: var(--brass-dark); }
