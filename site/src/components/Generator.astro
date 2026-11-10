@@ -255,6 +255,8 @@ const TXT = {
         const pen = el('span', 'ed'); pen.innerHTML = PEN; b.append(pen, el('span', 'sr', T.edit));
         li.append(b); list.append(li); n++;
       }
+      // Druck: Zeilen je Spalte für das Drei-Spalten-Grid (siehe site.css @media print).
+      list.style.setProperty('--prow', String(Math.ceil(list.children.length / 3)));
       // Alle eigenen Wege zählen, auch außerhalb des Bereichs, damit „Eigene Wege löschen“ zur Zahl passt.
       const total = Object.keys(mine).filter((k) => ownRoute(Number(k), s.d)).length;
       const parts = [T.count.replace('#', String(n))];

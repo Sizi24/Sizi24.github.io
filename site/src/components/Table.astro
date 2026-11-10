@@ -51,7 +51,7 @@ const jsonld = [{
       data-bogey={L('# ist ein Bogey: dafür gibt es kein Finish mit drei Darts.', '# is a bogey: there is no three-dart finish for it.')}></p>
     <p class="legend">{L('T = Triple, D = Doppel, Zahl allein = Single, Bull = 50, 25 = Single Bull.', 'T = treble, D = double, number alone = single, Bull = 50, 25 = outer bull.')}</p>
     <nav class="jump noprint" id="jump" aria-label={L('Springen zu', 'Jump to')}>{JUMP.map((n) => <a href={'#r' + n}>{n}</a>)}</nav>
-    <ul class="rows" id="rows">
+    <ul class="rows" id="rows" style={`--prow:${Math.ceil((rows.length + groupAt.size) / 3)}`}>
       {rows.map((r) => (<>
         {groupAt.has(r) && <li class="grp" aria-hidden="true">{groupAt.get(r)}</li>}
         <li class="row" data-n={r} id={'r' + r}>
