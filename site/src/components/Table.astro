@@ -1,4 +1,5 @@
 ---
+import Quick from './Quick.astro';
 import Base from '../layouts/Base.astro';
 import Route from './Route.astro';
 import PrintHead from './PrintHead.astro';
@@ -39,6 +40,7 @@ const jsonld = [{
       <h1>{L('Checkout-Tabelle: alle Finishes von 2 bis 170', 'Darts checkout chart: every finish from 2 to 170')}</h1>
       <p>{L('So spielen Profis jeden Rest mit Double Out, vom Big Fish 170 bis zur 2: alle Checkout-Wege auf einen Blick. Der letzte Dart muss ein Doppel oder das Bull treffen.', 'How pros play every score with double out, from the big fish 170 down to 2: every checkout route at a glance. The last dart has to hit a double or the bull.')}</p>
     </div>
+    <Quick lang={lang} learnHref={home} items={['liste', 'lernen']} />
     <div class="tools">
       <label class="search" for="q"><span aria-hidden="true" style="color:var(--t60)">⌕</span>
         <input id="q" type="search" inputmode="numeric" autocomplete="off" placeholder={L('Rest suchen, z. B. 121', 'Find a score, e.g. 121')} aria-label={L('Rest suchen', 'Find a score')}></label>

@@ -1,0 +1,28 @@
+---
+// Kurze Wege ganz oben (Salva 10.11.): eigene Liste, Checkout-Wege lernen, Tabelle.
+// Startseite und Checkout-Tabelle nutzen dieselben Kacheln.
+import { t, type Lang } from '../i18n';
+type Item = 'tabelle' | 'liste' | 'lernen';
+interface Props { lang: Lang; items: Item[]; learnHref: string }
+const { lang, items, learnHref } = Astro.props;
+const L = (de: string, en: string) => t(lang, de, en);
+const ICON: Record<Item, string> = {
+  tabelle: '<rect x="1.8" y="2.5" width="12.4" height="11" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M1.8 6.2h12.4M1.8 9.8h12.4M6 2.5v11" stroke="currentColor" stroke-width="1.3"/>',
+  liste: '<path d="M4 1.8h5.6L12.6 5v8.4a.8.8 0 0 1-.8.8H4a.8.8 0 0 1-.8-.8V2.6a.8.8 0 0 1 .8-.8z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5.6 7.4h4.8M5.6 10.2h4.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
+  lernen: '<circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.6" fill="none" stroke="currentColor" stroke-width="1.5"/>',
+};
+const DATA: Record<Item, { href: string; title: string; sub: string }> = {
+  tabelle: { href: lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/', title: L('Checkout-Tabelle 2 bis 170', 'Checkout chart 2 to 170'), sub: L('Alle Profi-Wege, gratis und ohne App.', 'Every pro route, free, no app needed.') },
+  liste: { href: lang === 'de' ? '/checkout-liste/' : '/en/checkout-list/', title: L('Eigene Checkout-Liste erstellen', 'Make your own checkout list'), sub: L('Mit deinem Lieblings-Doppel, zum Ausdrucken.', 'With your favourite double, ready to print.') },
+  lernen: { href: learnHref, title: L('Checkout-Wege lernen statt nachschlagen', 'Learn checkout routes, don’t look them up'), sub: L('Dardo übt jeden Rest mit dir, bis er sitzt.', 'Dardo practises every score with you until it sticks.') },
+};
+---
+<ul class="quick noprint">
+  {items.map((k) => (
+    <li><a class="tile qk" href={DATA[k].href}>
+      <span class="ico" aria-hidden="true"><svg viewBox="0 0 16 16" set:html={ICON[k]} /></span>
+      <span class="qt"><b>{DATA[k].title}</b><span>{DATA[k].sub}</span></span>
+      <span class="arr" aria-hidden="true">›</span>
+    </a></li>
+  ))}
+</ul>
