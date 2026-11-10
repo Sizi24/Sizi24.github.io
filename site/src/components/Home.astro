@@ -81,7 +81,7 @@ const jsonld = [
       <h1>{L('Am Board trainierst du den Wurf.', 'The board trains your throw.')} <em>{L('Mit Dardo den Kopf.', 'Dardo trains your head.')}</em></h1>
       <p class="lead">{L('Checkout-Wege lernen, Rechnen und Spielentscheidungen üben. Vom ersten Pfeil bis zum Profi-Finish.', 'Learn checkout routes, practise scoring maths and match decisions. From your first dart to a pro finish.')}</p>
       <StoreButtons lang={lang} />
-      <p class="trust">{(IOS_LIVE || ANDROID_LIVE) ? L('Gratis laden · iPhone und Android · Kein Konto, kein Tracking', 'Free to download · iPhone and Android · No account, no tracking') : L('Bald erhältlich, gratis · iPhone und Android · Kein Konto, kein Tracking', 'Coming soon, free · iPhone and Android · No account, no tracking')}</p>
+      <p class="trust">{((IOS_LIVE || ANDROID_LIVE) ? L('Gratis laden · iPhone und Android · Kein Konto, kein Tracking', 'Free to download · iPhone and Android · No account, no tracking') : L('Bald erhältlich, gratis · iPhone und Android · Kein Konto, kein Tracking', 'Coming soon, free · iPhone and Android · No account, no tracking')).split(' · ').map((x, i) => <>{i > 0 && ' · '}<span class="nw">{x}</span></>)}</p>
     </div>
     <div class="shot-hero"><img {...img('1-feedback')} sizes="300px" width="420" height="913" alt={shots[0][1]} fetchpriority="high"></div>
   </div></div>
