@@ -43,12 +43,18 @@ img { max-width: 100%; }
 .hero h1 { font-family: var(--display); font-size: clamp(32px, 6vw, 52px); line-height: 1.06; margin: 0 0 14px; letter-spacing: -.01em; text-wrap: balance; }
 .hero h1 em { font-style: normal; color: var(--brass); }
 .lead { color: var(--t72); font-size: 19px; margin: 0 0 22px; max-width: 34ch; }
-.stores { display: flex; gap: 10px; flex-wrap: wrap; }
+.stores { display: flex; flex-direction: column; gap: 12px; }
 .store { display: inline-flex; flex-direction: column; justify-content: center; min-width: 170px; padding: 9px 18px; border-radius: 14px; text-decoration: none; background: var(--brass); color: var(--on-brass); font-weight: 700; line-height: 1.2; }
 .store small { font-weight: 500; font-size: 12px; opacity: .8; }
 .store.ghost { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,.22); box-shadow: none; }
 .store.soon { cursor: default; background: transparent; color: var(--t72); border: 1px solid rgba(255,255,255,.18); min-width: 0; flex: 1 1 0; }
-.store.wide { flex: 1 1 100%; }
+.tile.learn { padding: 18px; }
+.tile.learn > b { font-size: 19px; line-height: 1.3; z-index: 1; }
+.tile.learn > span { margin-top: 4px; font-size: 15px; z-index: 1; }
+.stores-in { position: relative; z-index: 1; display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.stores-in .store { flex: 1 1 0; min-width: 0; min-height: 62px; font-size: 19px; padding: 10px 18px; }
+.stores-in .store small { font-size: 13px; }
+.stores-in .store.soon { border-color: rgba(255,255,255,.26); color: var(--text); }
 .trust { margin-top: 14px; font-size: 14px; color: var(--t60); }
 .shot-hero { justify-self: center; width: min(300px, 100%); }
 .shot-hero img, .shots img { display: block; width: 100%; height: auto; border-radius: 20px; box-shadow: 0 18px 50px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06); }
