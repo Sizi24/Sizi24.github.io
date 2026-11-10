@@ -90,7 +90,7 @@ section.blk h2, .h2 { font-family: var(--display); font-size: clamp(24px, 4.2vw,
 .tile .ico svg { width: 16px; height: 16px; }
 /* Spielarten als Zeilen mit echtem Beispiel (Startseite). */
 .modes { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.quick { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.quick { list-style: none; padding: 0; margin: 18px 0 22px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 .tile.qk { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 12px 14px; text-decoration: none; color: var(--text); height: 100%; box-sizing: border-box; }
 .tile.qk .ico { margin: 0; }
 .tile.qk .qt, .tile.qk .ico, .tile.qk .arr { z-index: 1; }
@@ -98,7 +98,7 @@ section.blk h2, .h2 { font-family: var(--display); font-size: clamp(24px, 4.2vw,
 .tile.qk .qt b { font-size: 15.5px; line-height: 1.3; text-wrap: balance; }
 .tile.qk .qt span { text-wrap: balance; display: block; color: var(--t72); font-size: 14px; line-height: 1.4; margin-top: 2px; }
 .tile.qk .arr { position: relative; color: var(--brass); font-size: 24px; line-height: 1; }
-.tile.qk:hover b { color: var(--brass); }
+@media (hover: hover) { .tile.qk:hover b { color: var(--brass); } }
 .tile.mode { display: grid; grid-template-columns: 30px 132px minmax(0, 1fr); align-items: center; gap: 4px 14px; padding: 14px 16px; }
 .tile.mode .ico { margin: 0; }
 .tile.mode b { font-size: 17px; }
