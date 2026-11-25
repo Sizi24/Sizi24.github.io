@@ -65,6 +65,11 @@ img { max-width: 100%; }
 .stores-in .store { flex: 1 1 0; min-width: 0; min-height: 62px; font-size: 19px; padding: 10px 18px; }
 .stores-in .store small { font-size: 13px; }
 .stores-in .store.soon { border-color: rgba(255,255,255,.26); color: var(--text); }
+.stores-in:has(.badge) { gap: 12px 14px; align-items: center; margin-top: 16px; }
+.badge { display: block; flex: none; line-height: 0; border-radius: 9px; }
+.badge img { display: block; height: 48px; width: auto; }
+.badge:focus-visible { outline: 2px solid var(--brass); outline-offset: 4px; }
+@media (max-width: 360px) { .badge img { height: 44px; } }
 .trust { margin-top: 14px; font-size: 14px; color: var(--t60); }
 .nw { white-space: nowrap; }
 .shot-hero { justify-self: center; width: min(300px, 100%); }

@@ -7,6 +7,10 @@ import { t, type Lang } from '../i18n';
 interface Props { lang: Lang }
 const { lang } = Astro.props;
 const live = IOS_LIVE || ANDROID_LIVE;
+// Offizielle Abzeichen (Apple Marketing Tools, Google Play Badges), unverändert; Google ohne durchsichtigen Rand.
+// Breite bei 40 px Höhe. Regeln: App Store zuerst, gleiche Höhe, Freiraum ein Viertel der Höhe, mindestens 40 px.
+const APPLE_W = { de: 120, en: 120 } as const;
+const GP_W = { de: 135, en: 134 } as const;
 const table = lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/';
 ---
 <div class="stores">
@@ -20,10 +24,10 @@ const table = lang === 'de' ? '/checkout-tabelle/' : '/en/checkout-chart/';
     <span>{t(lang, 'Dardo übt jeden Rest mit dir, bis er sitzt.', 'Dardo practises every score with you until it sticks.')}</span>
     <div class="stores-in">
       {IOS_LIVE
-        ? <a class="store" href={APP_STORE}><small>{t(lang, 'Laden im', 'Download on the')}</small>App Store</a>
+        ? <a class="badge" href={APP_STORE} aria-label={t(lang, 'Dardo im App Store laden', 'Download Dardo on the App Store')}><img src={`/bilder/stores/app-store-${lang}.svg`} alt={t(lang, 'Laden im App Store', 'Download on the App Store')} width={APPLE_W[lang]} height="40" /></a>
         : <span class="store soon"><small>{t(lang, 'Bald im', 'Coming soon')}</small>App Store</span>}
       {ANDROID_LIVE
-        ? <a class="store" href={GOOGLE_PLAY}><small>{t(lang, 'Jetzt bei', 'Get it on')}</small>Google Play</a>
+        ? <a class="badge" href={GOOGLE_PLAY} aria-label={t(lang, 'Dardo bei Google Play laden', 'Get Dardo on Google Play')}><img src={`/bilder/stores/google-play-${lang}.png`} alt={t(lang, 'Jetzt bei Google Play', 'Get it on Google Play')} width={GP_W[lang]} height="40" /></a>
         : <span class="store soon"><small>{t(lang, 'Bald bei', 'Coming soon')}</small>Google Play</span>}
     </div>
   </div>
